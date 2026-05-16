@@ -124,6 +124,10 @@ header h1 span { color: var(--gold); }
 .mb-team-btn.active { background: var(--mb-blue); border-color: var(--mb-blue); color: white; }
 .mb-team-btn .mb-age { font-size: 10px; font-weight: 600; opacity: 0.7; display: block; margin-top: 3px; }
 .mb-team-title { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 20px; color: var(--mb-blue); text-transform: uppercase; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.team-info { background: white; border-radius: 10px; border: 1px solid #c0d4f0; padding: 12px 14px; margin-bottom: 16px; }
+.team-coach { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 13px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+.team-coach span { color: var(--mb-blue); font-size: 15px; font-weight: 800; }
+.team-players { font-size: 13px; color: var(--text); line-height: 1.8; }
 .age-chip { font-size: 11px; background: var(--mb-blue-pale); color: var(--mb-blue); border: 1px solid #c0d4f0; padding: 3px 9px; border-radius: 10px; font-weight: 600; font-family: 'Barlow', sans-serif; text-transform: none; }
 
 /* ── CLASHES ── */
@@ -394,10 +398,10 @@ function filterAge(age,btn){document.querySelectorAll('.filter-btn').forEach(b=>
 const mbTeams=[
   {name:'Mt Beauty SC',age:'Under 6',ageFilter:'Under 6'},
   {name:'Mt Beauty SC',age:'Under 7',ageFilter:'Under 7'},
-  {name:'Mt Beauty SC Green U9',age:'Under 8/9',ageFilter:null},
-  {name:'Mt Beauty SC Red U9',age:'Under 8/9',ageFilter:null},
-  {name:'Mt Beauty SC Green U11',age:'Under 10/11',ageFilter:null},
-  {name:'Mt Beauty SC Red U11',age:'Under 10/11',ageFilter:null},
+  {name:'Mt Beauty SC Green U9',age:'Under 8/9',ageFilter:null,info:{coach:'Erik',players:['Finn','Charlie','Drift','James','Fletcher','Hendrix','Matilda','Channing','Evie','Hughie','Harry']}},
+  {name:'Mt Beauty SC Red U9',age:'Under 8/9',ageFilter:null,info:{coach:'Rachelle',players:['Banjo','Orion','Rueben','George','Travis','Gus','Sofia','Clover','Summer','Gene','Jaidyn']}},
+  {name:'Mt Beauty SC Green U11',age:'Under 10/11',ageFilter:null,info:{coach:'Dave',players:['Luca','Miranda','Sienna','Archie','Hamish','Christian','Niels','Thelma','Erin','Kit','Loki']}},
+  {name:'Mt Beauty SC Red U11',age:'Under 10/11',ageFilter:null,info:{coach:'Rob',players:['Lawson','Goldie','Lolly','Cooper','Max','Craig','Skye','Ollie','Sam','Hugo','Jarrah']}},
   {name:'Mt Beauty SC U13',age:'Under 12/13',ageFilter:null},
 ];
 const mbGrid=document.getElementById('mb-team-grid');
@@ -409,7 +413,8 @@ function showMbTeam(idx){
   const team=mbTeams[idx];
   const matches=fixtures.filter(f=>(f.t1===team.name||f.t2===team.name)&&(team.ageFilter===null||f.age===team.ageFilter));
   const cards=matches.map(m=>{const t=excelToTime(m.kick);return`<div class="match-card highlight"><div class="match-time">${t.str}<span class="match-time-ampm">${t.ampm}</span></div><div class="team team-home${m.t1===team.name?' mb':''}">${m.t1}</div><div class="vs-badge">VS</div><div class="team team-away${m.t2===team.name?' mb':''}">${m.t2}</div><button class="pitch-tag pitch-link" onclick="goToPitch(${m.pitch.split(' ')[1]})">${m.pitch} 📍</button></div>`;}).join('');
-  mbArea.innerHTML=`<div class="mb-team-title">${team.name}<span class="age-chip">${team.age}</span></div><div class="matches-grid">${cards}</div>`;
+  const info = team.info ? `<div class="team-info"><div class="team-coach">Coach: <span>${team.info.coach}</span></div><div class="team-players">${team.info.players.join(', ')}</div></div>` : '';
+  mbArea.innerHTML=`<div class="mb-team-title">${team.name}<span class="age-chip">${team.age}</span></div>${info}<div class="matches-grid">${cards}</div>`;
   setTimeout(()=>mbArea.scrollIntoView({behavior:'smooth',block:'nearest'}),50);
 }
 
