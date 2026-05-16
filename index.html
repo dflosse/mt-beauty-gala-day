@@ -104,6 +104,8 @@ header h1 span { color: var(--gold); }
 .team.mb { color: var(--mb-blue); font-weight: 700; }
 .team-home { text-align: right; }
 .vs-badge { background: var(--green-pale); color: var(--green); font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 11px; padding: 3px 6px; border-radius: 4px; text-align: center; white-space: nowrap; }
+.pitch-link { cursor: pointer; border: none; transition: background 0.15s, color 0.15s; }
+.pitch-link:hover, .pitch-link:active { background: var(--mb-blue); color: white; border-color: var(--mb-blue); }
 .pitch-tag { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 10px; letter-spacing: 0.3px; text-transform: uppercase; color: var(--text-muted); background: var(--grey-light); border: 1px solid var(--grey); padding: 3px 5px; border-radius: 4px; text-align: center; white-space: nowrap; }
 
 /* ── MT BEAUTY ── */
@@ -157,7 +159,7 @@ footer { text-align: center; padding: 14px; color: var(--text-muted); font-size:
 
 <nav>
   <button class="nav-btn active" onclick="showPage('map',this)">📍 Map</button>
-  <button class="nav-btn" onclick="showPage('draw',this)">📋 Draw</button>
+  <button class="nav-btn" onclick="showPage('draw',this)">📋 Fixtures</button>
   <button class="nav-btn mb-tab" onclick="showPage('mb',this)">🔵 Mt Beauty</button>
   <button class="nav-btn" onclick="showPage('clashes',this)">⚠️ Clashes</button>
 </nav>
@@ -291,31 +293,27 @@ footer { text-align: center; padding: 14px; color: var(--text-muted); font-size:
 <div id="page-clashes" class="page">
 <div class="content">
   <div class="clashes-intro">
-    <strong>1 genuine clash found.</strong> The Under 6 and Under 7 "Mt Beauty SC" entries are two separate teams — not a problem. Football Victoria are working on the clash below.
+    <strong>All clashes resolved.</strong> The Under 6 and Under 7 "Mt Beauty SC" entries are two separate teams — not a problem. The Under 8/9 clash has been fixed by Football Victoria.
   </div>
-  <div class="clash-card">
-    <div class="clash-type">⚠️ Genuine Clash — Being Fixed by Football Victoria</div>
+  <div class="clash-card resolved">
+    <div class="resolved-badge">✓ RESOLVED</div>
+    <div class="clash-type">Fixed by Football Victoria</div>
     <div class="clash-team">Mt Beauty SC Red U9</div>
-    <div style="font-size:13px;color:var(--text-muted);margin-bottom:10px;">Scheduled on two pitches at the same time.</div>
+    <div style="font-size:13px;color:var(--text-muted);margin-bottom:10px;">Two games were swapped to resolve the clash.</div>
     <div class="clash-games">
-      <div class="clash-game">
-        <span class="clash-game-time">11:00 AM</span>
-        <span class="clash-game-detail">Under 8/9: Mt Beauty SC Green U9 vs <strong>Mt Beauty SC Red U9</strong></span>
-        <span class="clash-pitch-tag">Pitch 3</span>
+      <div class="clash-game" style="background:#f5fdf7;border-color:#b4d4b4;">
+        <span class="clash-game-time" style="color:#1a6b3a;">11:00 AM</span>
+        <span class="clash-game-detail">Under 8/9: Bright SC Black U9 vs Myrtleford SC U9</span>
+        <span class="clash-pitch-tag" style="background:#d4edd4;color:#1a6b3a;">Pitch 4</span>
       </div>
-      <div class="clash-game">
-        <span class="clash-game-time">11:00 AM</span>
+      <div class="clash-game" style="background:#f5fdf7;border-color:#b4d4b4;">
+        <span class="clash-game-time" style="color:#1a6b3a;">11:30 AM</span>
         <span class="clash-game-detail">Under 8/9: Bright SC Red U9 vs <strong>Mt Beauty SC Red U9</strong></span>
-        <span class="clash-pitch-tag">Pitch 4</span>
+        <span class="clash-pitch-tag" style="background:#d4edd4;color:#1a6b3a;">Pitch 3</span>
       </div>
     </div>
   </div>
-  <div class="clash-card resolved">
-    <div class="resolved-badge">✓ NOT A CLASH</div>
-    <div class="clash-type">Two separate teams, same name</div>
-    <div class="clash-team">Mt Beauty SC (U6 &amp; U7)</div>
-    <div style="font-size:13px;color:var(--text-muted);">Two different age group teams, both called "Mt Beauty SC". No action needed.</div>
-  </div>
+
 </div>
 </div>
 
@@ -363,8 +361,8 @@ const fixtures=[
   {age:'Under 8/9',kick:0.4375,pitch:'Pitch 3',duration:'2 x 10 min',t1:'Bright SC White U9',t2:'Myrtleford SC U9'},
   {age:'Under 8/9',kick:0.4375,pitch:'Pitch 4',duration:'2 x 10 min',t1:'Yackandandah FC U8',t2:'Bright SC Red U9'},
   {age:'Under 8/9',kick:0.45833333333333331,pitch:'Pitch 3',duration:'2 x 10 min',t1:'Mt Beauty SC Green U9',t2:'Mt Beauty SC Red U9'},
-  {age:'Under 8/9',kick:0.45833333333333331,pitch:'Pitch 4',duration:'2 x 10 min',t1:'Bright SC Red U9',t2:'Mt Beauty SC Red U9'},
-  {age:'Under 8/9',kick:0.47916666666666669,pitch:'Pitch 3',duration:'2 x 10 min',t1:'Bright SC Black U9',t2:'Myrtleford SC U9'},
+  {age:'Under 8/9',kick:0.47916666666666669,pitch:'Pitch 3',duration:'2 x 10 min',t1:'Bright SC Red U9',t2:'Mt Beauty SC Red U9'},
+  {age:'Under 8/9',kick:0.45833333333333331,pitch:'Pitch 4',duration:'2 x 10 min',t1:'Bright SC Black U9',t2:'Myrtleford SC U9'},
   {age:'Under 8/9',kick:0.47916666666666669,pitch:'Pitch 4',duration:'2 x 10 min',t1:'Bright SC White U9',t2:'Yackandandah FC U8'},
   {age:'Under 10/11',kick:0.39583333333333331,pitch:'Pitch 7',duration:'2 x 12 min',t1:'Bright SC U11',t2:'Yackandandah FC U10'},
   {age:'Under 10/11',kick:0.39583333333333331,pitch:'Pitch 8',duration:'2 x 12 min',t1:'Mt Beauty SC Green U11',t2:'Mt Beauty SC Red U11'},
@@ -410,7 +408,7 @@ function showMbTeam(idx){
   document.getElementById('mb-btn-'+idx).classList.add('active');
   const team=mbTeams[idx];
   const matches=fixtures.filter(f=>(f.t1===team.name||f.t2===team.name)&&(team.ageFilter===null||f.age===team.ageFilter));
-  const cards=matches.map(m=>{const t=excelToTime(m.kick);return`<div class="match-card highlight"><div class="match-time">${t.str}<span class="match-time-ampm">${t.ampm}</span></div><div class="team team-home${m.t1===team.name?' mb':''}">${m.t1}</div><div class="vs-badge">VS</div><div class="team team-away${m.t2===team.name?' mb':''}">${m.t2}</div><div class="pitch-tag">${m.pitch}</div></div>`;}).join('');
+  const cards=matches.map(m=>{const t=excelToTime(m.kick);return`<div class="match-card highlight"><div class="match-time">${t.str}<span class="match-time-ampm">${t.ampm}</span></div><div class="team team-home${m.t1===team.name?' mb':''}">${m.t1}</div><div class="vs-badge">VS</div><div class="team team-away${m.t2===team.name?' mb':''}">${m.t2}</div><button class="pitch-tag pitch-link" onclick="goToPitch(${m.pitch.split(' ')[1]})">${m.pitch} 📍</button></div>`;}).join('');
   mbArea.innerHTML=`<div class="mb-team-title">${team.name}<span class="age-chip">${team.age}</span></div><div class="matches-grid">${cards}</div>`;
   setTimeout(()=>mbArea.scrollIntoView({behavior:'smooth',block:'nearest'}),50);
 }
@@ -425,6 +423,17 @@ function showPitchMatches(pitchNum){
   const panel=document.getElementById('pitch-panel');
   panel.style.display='block';
   setTimeout(()=>panel.scrollIntoView({behavior:'smooth',block:'nearest'}),50);
+}
+
+function goToPitch(pitchNum){
+  // Switch to map tab
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('page-map').classList.add('active');
+  document.querySelector('.nav-btn[onclick*="map"]').classList.add('active');
+  // Show pitch panel
+  showPitchMatches(pitchNum);
+  window.scrollTo({top:0,behavior:'smooth'});
 }
 </script>
 </body>
