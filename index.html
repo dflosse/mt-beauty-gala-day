@@ -230,7 +230,7 @@ footer { text-align: center; padding: 14px; color: var(--text-muted); font-size:
   <!-- WEATHER -->
   <div class="home-section">
     <div class="home-section-title">Weather</div>
-    <div style="display:flex;flex-direction:column;gap:10px;">
+    <div style="display:flex;flex-direction:column;gap:10px;max-width:480px;margin:0 auto;">
       <div class="weather-card">
         <div class="weather-card-title">🏃 Tue Training (4–5pm) · U13 · Mt Beauty</div>
         <div id="weather-training-u13">
@@ -238,7 +238,7 @@ footer { text-align: center; padding: 14px; color: var(--text-muted); font-size:
         </div>
       </div>
       <div class="weather-card">
-        <div class="weather-card-title">🏃 Wed Training (4–5pm) · All Ages · Mt Beauty</div>
+        <div class="weather-card-title">🏃 Wed Training (4–5pm) · U5–U11 · Mt Beauty</div>
         <div id="weather-training">
           <div class="weather-loading">Loading...</div>
         </div>
@@ -338,10 +338,31 @@ footer { text-align: center; padding: 14px; color: var(--text-muted); font-size:
 <div id="page-mb" class="page">
 <div class="content">
   <div class="mb-header"><h2>⚽ Mt Beauty FC — Teams</h2><p>Gala fixture and team info — updated each Wednesday</p></div>
-  <div style="text-align:center;padding:48px 24px;background:white;border-radius:12px;border:2px dashed var(--grey);">
-    <div style="font-size:36px;margin-bottom:10px;">🔵</div>
-    <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:20px;color:var(--text-muted);text-transform:uppercase;margin-bottom:8px;">Teams Coming Soon</div>
-    <p style="font-size:13px;color:var(--text-muted);line-height:1.6;">Updated each Wednesday</p>
+  <div style="background:#e8f0fc;border:1px solid #c0d4f0;border-radius:10px;padding:12px 14px;margin-bottom:16px;">
+    <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--mb-blue);margin-bottom:4px;">Gala 2 — Myrtleford · 23 May</div>
+    <div style="font-size:13px;color:var(--text-muted);">More teams will be added each Wednesday as squads are confirmed.</div>
+  </div>
+
+  <!-- U7 TEAM CARD -->
+  <div class="team-info" style="margin-bottom:16px;">
+    <div class="age-group-header" style="margin-bottom:10px;">
+      <span class="age-label">Under 7</span>
+      <div class="age-line"></div>
+    </div>
+    <div class="team-coach">Coach: <span>Steff</span></div>
+    <div style="margin-top:10px;">
+      <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px;">✅ Confirmed</div>
+      <div class="team-players">Oscar, Harper, Alfie, Frankie, Millie, Henry, Sierra</div>
+    </div>
+    <div style="margin-top:10px;">
+      <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px;">❓ Unconfirmed</div>
+      <div class="team-players" style="color:var(--text-muted);">Ollie, Louis, Luca</div>
+    </div>
+  </div>
+
+  <div style="text-align:center;padding:24px;background:white;border-radius:12px;border:2px dashed var(--grey);">
+    <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:16px;color:var(--text-muted);text-transform:uppercase;margin-bottom:6px;">More Teams Coming</div>
+    <p style="font-size:13px;color:var(--text-muted);">Updated each Wednesday</p>
   </div>
 </div>
 </div>
@@ -579,8 +600,8 @@ function renderWeatherCard(el, data, targetDate, isTraining) {
   if (!entry) { el.innerHTML = '<div class="weather-error">No forecast available</div>'; return; }
 
   const icon = getWeatherIcon(entry.icon_descriptor);
-  const max = entry.temp_max !== undefined ? entry.temp_max + '°' : '—';
-  const min = entry.temp_min !== undefined ? entry.temp_min + '°' : '—';
+  const max = (entry.temp_max !== null && entry.temp_max !== undefined) ? entry.temp_max + '°' : '—';
+  const min = (entry.temp_min !== null && entry.temp_min !== undefined) ? entry.temp_min + '°' : '—';
   const rain = entry.rain ? entry.rain.chance + '%' : '—';
   const desc = isTraining ? (entry.now ? entry.now.short_text : entry.short_text) || entry.short_text || '' : entry.short_text || '';
 
@@ -708,7 +729,7 @@ function filterAge(age,btn){}
 // MT BEAUTY TEAMS — coming soon for next gala
 const mbTeams=[
   {name:'Mt Beauty SC',age:'Under 6',ageFilter:'Under 6'},
-  {name:'Mt Beauty SC',age:'Under 7',ageFilter:'Under 7'},
+  {name:'Mt Beauty SC',age:'Under 7',ageFilter:'Under 7',info:{coach:'Steff',players:['Oscar','Harper','Alfie','Frankie','Millie','Henry','Sierra'],confirmed:['Oscar','Harper','Alfie','Frankie','Millie','Henry','Sierra'],pending:['Ollie','Louis','Luca']}},
   {name:'Mt Beauty SC Green U9',age:'Under 8/9',ageFilter:null,info:{coach:'Erik',players:['Finn','Charlie','Drift','James','Fletcher','Hendrix','Matilda','Channing','Evie','Hughie','Harry']}},
   {name:'Mt Beauty SC Red U9',age:'Under 8/9',ageFilter:null,info:{coach:'Rachelle',players:['Banjo','Orion','Rueben','George','Travis','Gus','Sofia','Clover','Summer','Gene','Jaidyn']}},
   {name:'Mt Beauty SC Green U11',age:'Under 10/11',ageFilter:null,info:{coach:'Dave',players:['Luca','Miranda','Sienna','Archie','Hamish','Christian','Niels','Thelma','Erin','Kit','Loki']}},
