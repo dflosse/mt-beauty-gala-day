@@ -529,7 +529,23 @@ footer { text-align: center; padding: 14px; color: var(--text-muted); font-size:
 <!-- PHOTOS -->
 <div id="page-photos" class="page">
   <div style="position:fixed;top:0;left:0;width:100%;height:100%;background:#000;z-index:999;">
-    <iframe id="photo-iframe" style="width:100%;height:100%;border:none;" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    
+    <!-- Back button -->
+    <button onclick="closePhotos()" style="position:absolute;top:16px;left:16px;z-index:1001;background:rgba(255,255,255,0.15);border:none;border-radius:50%;width:44px;height:44px;color:white;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;">&#8592;</button>
+
+    <!-- YouTube iframe hidden behind overlay -->
+    <iframe id="photo-iframe" style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;z-index:999;" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+
+    <!-- Black overlay with play button — hides YouTube UI until tapped -->
+    <div id="photo-overlay" onclick="playVideo()" style="position:absolute;top:0;left:0;width:100%;height:100%;background:#000;z-index:1000;display:flex;align-items:center;justify-content:center;cursor:pointer;">
+      <div style="text-align:center;">
+        <div style="width:72px;height:72px;border-radius:50%;background:rgba(255,255,255,0.15);border:2px solid rgba(255,255,255,0.4);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;">
+          <span style="font-size:28px;margin-left:4px;">&#9654;</span>
+        </div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.5);">Gala 1 · Photo Highlights</div>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -602,7 +618,7 @@ function showPage(name,btn){
   if(btn)btn.classList.add('active');
   window.scrollTo({top:0,behavior:'smooth'});
   if(name==='results'){buildArchivedDraw('archived-draw-gala1',false);}
-  if(name==='photos'){document.getElementById('photo-iframe').src='https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ?autoplay=1&mute=0&rel=0&modestbranding=1&playsinline=1&enablejsapi=1';}
+  if(name==='photos'){document.getElementById('photo-iframe').src='https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ?autoplay=0&mute=0&rel=0&modestbranding=1&playsinline=1';document.getElementById('photo-overlay').style.display='flex';}
   else{const iframe=document.getElementById('photo-iframe');if(iframe)iframe.src='';}
 }
 function navTo(name){let btn=null;document.querySelectorAll('.nav-btn').forEach(b=>{const oc=b.getAttribute('onclick')||'';if(oc.includes("'"+name+"'"))btn=b;});if(btn)showPage(name,btn);}
@@ -718,12 +734,17 @@ function photosNavClick(btn){
   showPage('photos', btn);
 }
 
-function unmuteVideo(){
-  const iframe=document.getElementById('photo-iframe');
-  const btn=document.getElementById('unmute-btn');
-  iframe.src='https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ?autoplay=1&mute=0&rel=0&modestbranding=1&playsinline=1';
-  btn.style.display='none';
+function playVideo(){
+  document.getElementById('photo-overlay').style.display='none';
+  document.getElementById('photo-iframe').src='https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ?autoplay=1&mute=0&rel=0&modestbranding=1&playsinline=1';
 }
+function closePhotos(){
+  const iframe=document.getElementById('photo-iframe');
+  if(iframe)iframe.src='';
+  document.getElementById('photo-overlay').style.display='flex';
+  navTo('home');
+}
+function unmuteVideo(){}
 
 loadWeather();
 </script>
