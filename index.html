@@ -644,8 +644,10 @@ function renderWeatherCard(el, dailyData, hourlyData, targetDate, isTraining, ho
   // Filter hourly to relevant window
   const relevantHours = (hourlyData || []).filter(h => {
     const d = new Date(h.time);
-    return d.toISOString().startsWith(targetDate) && d.getHours() >= hourStart && d.getHours() <= hourEnd;
-  }).sort((a,b) => new Date(a.time) - new Date(b.time));
+    // Use local date string to avoid UTC offset issues with Australian timezones
+    const localDate = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+    return localDate === targetDate && d.getHours() >= hourStart && d.getHours() <= hourEnd;
+  }).sort((a,b) => new Date(a.time).getTime() - new Date(b.time).getTime());
 
   const hourlyBar = buildHourlyBar(relevantHours);
 
@@ -816,10 +818,10 @@ function filterAge(age,btn){document.querySelectorAll('.filter-btn').forEach(b=>
 const mbTeams=[
   {name:'Mt Beauty SC Red',  label:'Red',    age:'Under 7',    ageFilter:'Under 7',
    info:{coach:'TBD on day', note:'Teams formed on the day based on skills mix',
-    confirmed:['Elsie F','Fletcher','Arlo','Felix','Chester','Leo','Harper','Reuben H','Oscar','Alfie','Frankie','Millicent','Henry','Sierra','Luca'], pending:['Louis'], absent:['Lenox','Theodore','Ollie']}},
+    confirmed:['Elsie F','Fletcher','Arlo','Felix','Chester','Leo','Harper','Reuben H','Louis','Oscar','Alfie','Frankie','Millicent','Henry','Sierra','Luca'], pending:[], absent:['Lenox','Theodore','Ollie']}},
   {name:'Mt Beauty SC Green',label:'Green',   age:'Under 7',    ageFilter:'Under 7',
    info:{coach:'TBD on day', note:'Teams formed on the day based on skills mix',
-    confirmed:['Elsie F','Fletcher','Arlo','Felix','Chester','Leo','Harper','Reuben H','Oscar','Alfie','Frankie','Millicent','Henry','Sierra','Luca'], pending:['Louis'], absent:['Lenox','Theodore','Ollie']}},
+    confirmed:['Elsie F','Fletcher','Arlo','Felix','Chester','Leo','Harper','Reuben H','Louis','Oscar','Alfie','Frankie','Millicent','Henry','Sierra','Luca'], pending:[], absent:['Lenox','Theodore','Ollie']}},
   {name:'Mt Beauty SC Red',  label:'U9 Red',  age:'Under 8/9',  ageFilter:'Under 8/9',
    info:{coach:'Rachelle', note:'',
     confirmed:['Banjo','Orion','Reuben','George','Travis','Gus','Sofia','Clover','Summer','Gene','Jaidyn'], pending:[], absent:[]}},
