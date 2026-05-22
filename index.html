@@ -597,15 +597,20 @@ function formatHourlyRow(h) {
   const ampm = hour >= 12 ? 'PM' : 'AM';
   const h12 = hour % 12 || 12;
   const timeStr = `${h12}${ampm}`;
-  const temp = h.temp !== null && h.temp !== undefined ? h.temp + '°' : '—';
+  const temp = (h.temp !== null && h.temp !== undefined) ? h.temp + '°' : '—';
   const icon = getWeatherIcon(h.icon_descriptor || '');
-  const rain = h.rain && h.rain.chance !== null ? h.rain.chance + '%' : '—';
-  return `<div style="display:grid;grid-template-columns:40px 24px 36px 1fr 36px;align-items:center;gap:6px;padding:5px 0;border-bottom:1px solid var(--grey-light);font-size:12px;">
-    <span style="font-family:'Barlow Condensed',sans-serif;font-weight:700;color:var(--text-muted);">${timeStr}</span>
-    <span>${icon}</span>
-    <span style="font-family:'Barlow Condensed',sans-serif;font-weight:700;color:var(--text);">${temp}</span>
-    <span style="color:var(--text-muted);font-size:11px;">${h.short_text||h.icon_descriptor||''}</span>
-    <span style="color:#1a6b3a;font-weight:600;">🌧 ${rain}</span>
+  const rain = (h.rain && h.rain.chance !== null) ? h.rain.chance + '%' : '—';
+  const desc = h.short_text || h.icon_descriptor || '—';
+  return `<div style="display:flex;align-items:center;gap:0;padding:6px 0;border-bottom:1px solid var(--grey-light);font-size:12px;">
+    <span style="width:44px;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:13px;color:var(--green);flex-shrink:0;">${timeStr}</span>
+    <span style="width:2px;color:var(--grey);flex-shrink:0;">|</span>
+    <span style="width:28px;text-align:center;flex-shrink:0;">${icon}</span>
+    <span style="width:2px;color:var(--grey);flex-shrink:0;">|</span>
+    <span style="width:34px;font-family:'Barlow Condensed',sans-serif;font-weight:700;color:var(--text);flex-shrink:0;">${temp}</span>
+    <span style="width:2px;color:var(--grey);flex-shrink:0;">|</span>
+    <span style="flex:1;color:var(--text-muted);font-size:11px;padding:0 6px;">${desc}</span>
+    <span style="width:2px;color:var(--grey);flex-shrink:0;">|</span>
+    <span style="width:38px;text-align:right;color:#1a6b3a;font-weight:700;font-size:11px;">🌧${rain}</span>
   </div>`;
 }
 
@@ -645,7 +650,7 @@ function renderWeatherCard(el, dailyData, hourlyData, targetDate, isTraining, ho
   const relevantHours = (hourlyData || []).filter(h => {
     const d = new Date(h.time);
     return d.toISOString().startsWith(targetDate) && d.getHours() >= hourStart && d.getHours() <= hourEnd;
-  });
+  }).sort((a,b) => new Date(a.time) - new Date(b.time));
 
   const hourlyId = 'hourly-' + Math.random().toString(36).substr(2,6);
   const hourlyRows = relevantHours.length > 0
