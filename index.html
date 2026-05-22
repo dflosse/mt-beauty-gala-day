@@ -220,7 +220,7 @@ footer { text-align: center; padding: 14px; color: var(--text-muted); font-size:
   <button class="nav-btn" onclick="showPage('draw',this)">📋 Gala Fixture</button>
   <button class="nav-btn mb-tab" onclick="showPage('mb',this)">🔵 Mt Beauty Teams</button>
   <button class="nav-btn" onclick="showPage('results',this)">🏆 Past Galas</button>
-  <button class="nav-btn" onclick="showPage('photos',this)">📷 Photos</button>
+  <button class="nav-btn" id="photos-nav-btn" onclick="photosNavClick(this)">📷 Photos</button>
 </nav>
 
 <!-- HOME -->
@@ -535,7 +535,7 @@ footer { text-align: center; padding: 14px; color: var(--text-muted); font-size:
       allow="autoplay; encrypted-media"
       allowfullscreen>
     </iframe>
-    <div id="unmute-btn" onclick="unmuteVideo()" style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:1000;cursor:default;background:transparent;"></div>
+
   </div>
 </div>
 
@@ -608,7 +608,7 @@ function showPage(name,btn){
   if(btn)btn.classList.add('active');
   window.scrollTo({top:0,behavior:'smooth'});
   if(name==='results'){buildArchivedDraw('archived-draw-gala1',false);}
-  if(name==='photos'){document.getElementById('photo-iframe').src='https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ?autoplay=1&mute=1&rel=0&modestbranding=1&playsinline=1';document.getElementById('unmute-btn').style.display='flex';}
+  if(name==='photos'){document.getElementById('photo-iframe').src='https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ?autoplay=1&mute=0&rel=0&modestbranding=1&playsinline=1';}
   else{const iframe=document.getElementById('photo-iframe');if(iframe)iframe.src='';}
 }
 function navTo(name){let btn=null;document.querySelectorAll('.nav-btn').forEach(b=>{const oc=b.getAttribute('onclick')||'';if(oc.includes("'"+name+"'"))btn=b;});if(btn)showPage(name,btn);}
@@ -718,6 +718,29 @@ async function loadWeather(){
       renderWeatherCard(galaEl,gd,gh2,nextGala.date,false,8,14);
     }catch(e){galaEl.innerHTML='<div class="weather-error">Weather unavailable</div>';}
   }else{galaEl.innerHTML='<div class="weather-desc">Season complete!</div>';}
+}
+
+function photosNavClick(btn){
+  // Use Web Audio API to unlock audio context on this user gesture
+  // then immediately load video with sound in same event loop
+  try {
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    if(AudioContext) {
+      const ctx = new AudioContext();
+      const buf = ctx.createBuffer(1,1,22050);
+      const src = ctx.createBufferSource();
+      src.buffer = buf;
+      src.connect(ctx.destination);
+      src.start(0);
+      ctx.resume().then(()=>{
+        showPage('photos', btn);
+      });
+    } else {
+      showPage('photos', btn);
+    }
+  } catch(e) {
+    showPage('photos', btn);
+  }
 }
 
 function unmuteVideo(){
