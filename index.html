@@ -529,12 +529,8 @@ footer { text-align: center; padding: 14px; color: var(--text-muted); font-size:
 <!-- PHOTOS -->
 <div id="page-photos" class="page">
   <div style="position:fixed;top:0;left:0;width:100%;height:100%;background:#000;z-index:999;">
-    <video id="photo-video"
-      style="width:100%;height:100%;object-fit:cover;"
-      playsinline
-      preload="none">
-      <source src="https://res.cloudinary.com/dbffizo5x/video/upload/v1779447736/rickroll_as9ozi.ts" type="video/mp4">
-    </video>
+    <iframe id="photo-iframe" style="width:100%;height:100%;border:none;" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    <div id="unmute-btn" onclick="unmuteVideo()" style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:1000;cursor:default;background:transparent;"></div>
   </div>
 </div>
 
@@ -607,12 +603,8 @@ function showPage(name,btn){
   if(btn)btn.classList.add('active');
   window.scrollTo({top:0,behavior:'smooth'});
   if(name==='results'){buildArchivedDraw('archived-draw-gala1',false);}
-  if(name==='photos'){
-    const v=document.getElementById('photo-video');
-    v.volume=1;
-    v.play().catch(()=>{});
-  }
-  else{const v=document.getElementById('photo-video');if(v){v.pause();v.currentTime=0;}}
+  if(name==='photos'){document.getElementById('photo-iframe').src='https://player.cloudinary.com/embed/?cloud_name=dbffizo5x&public_id=rickroll_as9ozi&autoplay=true&muted=false&controls=false';document.getElementById('unmute-btn').style.display='none';}
+  else{const iframe=document.getElementById('photo-iframe');if(iframe)iframe.src='';}
 }
 function navTo(name){let btn=null;document.querySelectorAll('.nav-btn').forEach(b=>{const oc=b.getAttribute('onclick')||'';if(oc.includes("'"+name+"'"))btn=b;});if(btn)showPage(name,btn);}
 function excelToTime(dec){const totalMins=Math.round(dec*24*60);const h=Math.floor(totalMins/60);const m=totalMins%60;const ampm=h>=12?'PM':'AM';const h12=h%12||12;return{str:h12+(m>0?':'+String(m).padStart(2,'0'):''),ampm:ampm};}
@@ -730,7 +722,7 @@ function photosNavClick(btn){
 function unmuteVideo(){
   const iframe=document.getElementById('photo-iframe');
   const btn=document.getElementById('unmute-btn');
-  iframe.src=iframe.src.replace('mute=1','mute=0');
+  iframe.src='https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ?autoplay=1&mute=0&rel=0&modestbranding=1&playsinline=1';
   btn.style.display='none';
 }
 
