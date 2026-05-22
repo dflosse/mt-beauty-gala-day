@@ -528,242 +528,19 @@ footer { text-align: center; padding: 14px; color: var(--text-muted); font-size:
 
 <!-- PHOTOS -->
 <div id="page-photos" class="page">
-<div class="content">
-  <div style="padding:0;">
-    <div style="display:flex;align-items:center;gap:10px;padding:16px 16px 12px;">
-      <span style="font-size:24px;">📸</span>
-      <div>
-        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:18px;text-transform:uppercase;letter-spacing:1px;">Gala Day Photos</div>
-        <div style="font-size:12px;color:var(--text-muted);">Gala 1 · Mt Beauty · 17 May 2026</div>
-      </div>
-    </div>
-    <div style="position:relative;width:100%;padding-bottom:56.25%;background:#000;border-radius:0 0 12px 12px;overflow:hidden;">
-      <iframe
-        src="https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ?autoplay=1&rel=0&modestbranding=1"
-        style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;"
-        allow="autoplay; encrypted-media"
-        allowfullscreen>
-      </iframe>
-    </div>
+  <div style="position:fixed;top:0;left:0;width:100%;height:100%;background:#000;z-index:999;">
+    <iframe
+      id="photo-iframe"
+      style="width:100%;height:100%;border:none;"
+      allow="autoplay; encrypted-media"
+      allowfullscreen>
+    </iframe>
   </div>
 </div>
-</div>
 
-<footer>Mt Beauty SC · 2026 Junior Gala Day Series</footer>
+
 
 <script>
-// GEOHASHES for BOM weather API
-const LOCATIONS = {
-  'Mount Beauty': 'r32xhb',
-  'Myrtleford':   'r32rfz',
-  'Yackandandah': 'r383mk',
-  'Bright':       'r32x07',
-};
-
-// Season schedule - next gala location
-const GALAS = [
-  { date: '2026-05-17', host: 'Mount Beauty', done: true },
-  { date: '2026-05-23', host: 'Myrtleford', done: false },
-  { date: '2026-05-31', host: 'Mount Beauty', done: false },
-  { date: '2026-06-14', host: 'Yackandandah', done: false },
-  { date: '2026-06-27', host: 'Bright', done: false },
-];
-
-function getWeatherIcon(descriptor) {
-  const map = {
-    'sunny': '☀️', 'clear': '🌙', 'mostly_sunny': '🌤️', 'partly_cloudy': '⛅',
-    'mostly_cloudy': '🌥️', 'cloudy': '☁️', 'overcast': '☁️',
-    'light_shower': '🌦️', 'shower': '🌧️', 'rain': '🌧️', 'heavy_shower': '⛈️',
-    'drizzle': '🌦️', 'fog': '🌫️', 'frost': '🌨️', 'snow': '❄️',
-    'storm': '⛈️', 'light_rain': '🌦️', 'windy': '💨',
-  };
-  if (!descriptor) return '🌡️';
-  const key = descriptor.toLowerCase().replace(/ /g,'_');
-  for (const [k,v] of Object.entries(map)) { if (key.includes(k)) return v; }
-  return '🌡️';
-}
-
-async function fetchWeather(geohash) {
-  const url = `https://api.weather.bom.gov.au/v1/locations/${geohash}/forecasts/daily`;
-  const r = await fetch(url);
-  if (!r.ok) throw new Error('fetch failed');
-  const json = await r.json();
-  return json.data;
-}
-
-async function fetchHourly(geohash) {
-  const url = `https://api.weather.bom.gov.au/v1/locations/${geohash}/forecasts/hourly`;
-  const r = await fetch(url);
-  if (!r.ok) throw new Error('fetch failed');
-  const json = await r.json();
-  return json.data;
-}
-
-function uvColor(val) {
-  if (val === null || val === undefined) return {bg:'#f4f6f4', color:'#5a7060', label:'N/A'};
-  if (val <= 2)  return {bg:'#e8f5ed', color:'#1a6b3a', label:`UV ${val} — Low`};
-  if (val <= 5)  return {bg:'#fff8e1', color:'#a07000', label:`UV ${val} — Moderate`};
-  if (val <= 7)  return {bg:'#fff0e0', color:'#c05000', label:`UV ${val} — High`};
-  if (val <= 10) return {bg:'#fde8e8', color:'#c0392b', label:`UV ${val} — Very High`};
-  return {bg:'#f0d0f0', color:'#7a0080', label:`UV ${val} — Extreme`};
-}
-
-function buildHourlyBar(hours) {
-  if (!hours.length) return '<div style="font-size:12px;color:var(--text-muted);">No hourly data</div>';
-  const cells = hours.map(h => {
-    const d = new Date(h.time);
-    const hr = d.getHours();
-    const ampm = hr >= 12 ? 'pm' : 'am';
-    const h12 = hr % 12 || 12;
-    const temp = (h.temp !== null && h.temp !== undefined) ? h.temp + '°' : '—';
-    const rain = (h.rain && h.rain.chance !== null) ? h.rain.chance + '%' : '—';
-    return `<div style="flex:1;text-align:center;padding:4px 2px;min-width:36px;">
-      <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:11px;color:var(--green);">${h12}${ampm}</div>
-      <div style="font-weight:700;font-size:13px;color:var(--text);margin:2px 0;">${temp}</div>
-      <div style="font-size:11px;color:#1a6b3a;">🌧${rain}</div>
-    </div>`;
-  }).join('<div style="width:1px;background:var(--grey-light);align-self:stretch;"></div>');
-  return `<div style="display:flex;align-items:stretch;border:1px solid var(--grey-light);border-radius:8px;overflow:hidden;">${cells}</div>`;
-}
-
-function getNextWednesday() {
-  const now = new Date();
-  const day = now.getDay();
-  const diff = (3 - day + 7) % 7 || 7;
-  const wed = new Date(now);
-  wed.setDate(now.getDate() + diff);
-  return wed.toISOString().split('T')[0];
-}
-
-function getNextTuesday() {
-  const now = new Date();
-  const day = now.getDay();
-  const diff = (2 - day + 7) % 7 || 7;
-  const tue = new Date(now);
-  tue.setDate(now.getDate() + diff);
-  return tue.toISOString().split('T')[0];
-}
-
-function renderWeatherCard(el, dailyData, hourlyData, targetDate, isTraining, hourStart, hourEnd) {
-  const entry = dailyData.find(d => d.date && d.date.startsWith(targetDate)) || dailyData[0];
-  if (!entry) { el.innerHTML = '<div class="weather-error">No forecast available</div>'; return; }
-
-  const icon = getWeatherIcon(entry.icon_descriptor);
-  const max = (entry.temp_max !== null && entry.temp_max !== undefined) ? entry.temp_max + '°' : '—';
-  const min = (entry.temp_min !== null && entry.temp_min !== undefined) ? entry.temp_min + '°' : '—';
-  const rain = entry.rain ? entry.rain.chance + '%' : '—';
-  const desc = isTraining ? (entry.now ? entry.now.short_text : entry.short_text) || entry.short_text || '' : entry.short_text || '';
-
-  // UV
-  const uvVal = entry.uv && entry.uv.max_index !== undefined ? entry.uv.max_index : null;
-  const uv = uvColor(uvVal);
-
-  // Filter hourly to relevant window
-  const relevantHours = (hourlyData || []).filter(h => {
-    const d = new Date(h.time);
-    // Use local date string to avoid UTC offset issues with Australian timezones
-    const localDate = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
-    return localDate === targetDate && d.getHours() >= hourStart && d.getHours() <= hourEnd;
-  }).sort((a,b) => new Date(a.time).getTime() - new Date(b.time).getTime());
-
-  const hourlyBar = buildHourlyBar(relevantHours);
-
-  el.innerHTML = `
-    <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px;">
-      <div class="weather-icon" style="margin:0;font-size:32px;">${icon}</div>
-      <div>
-        <div class="weather-temp" style="line-height:1;">${max} <span>/ ${min}</span></div>
-        <div class="weather-desc" style="margin-top:2px;">${desc || entry.icon_descriptor || ''}</div>
-      </div>
-      <div style="margin-left:auto;text-align:right;">
-        <span style="display:inline-block;background:${uv.bg};color:${uv.color};font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;padding:3px 8px;border-radius:8px;letter-spacing:0.5px;">${uv.label}</span>
-        <div class="weather-pill" style="margin-top:4px;display:inline-block;">🌧 ${rain}</div>
-      </div>
-    </div>
-    <div style="margin-top:6px;">${hourlyBar}</div>`;
-}
-
-async function loadWeather() {
-  const nextGala = GALAS.find(g => !g.done);
-  const galaEl = document.getElementById('weather-gala');
-  const trainEl = document.getElementById('weather-training');
-  const u13El = document.getElementById('weather-training-u13');
-
-  // Fetch Mt Beauty daily + hourly
-  let mbDaily = [], mbHourly = [];
-  try {
-    [mbDaily, mbHourly] = await Promise.all([
-      fetchWeather(LOCATIONS['Mount Beauty']),
-      fetchHourly(LOCATIONS['Mount Beauty'])
-    ]);
-  } catch(e) {}
-
-  // Tuesday U13 training (4-5pm → show 3pm-6pm)
-  if (u13El) {
-    try {
-      const tueDate = getNextTuesday();
-      renderWeatherCard(u13El, mbDaily, mbHourly, tueDate, true, 15, 18);
-    } catch(e) {
-      u13El.innerHTML = '<div class="weather-error">Weather unavailable</div>';
-    }
-  }
-
-  // Wednesday training (4-5pm → show 3pm-6pm)
-  try {
-    const wedDate = getNextWednesday();
-    renderWeatherCard(trainEl, mbDaily, mbHourly, wedDate, true, 15, 18);
-  } catch(e) {
-    trainEl.innerHTML = '<div class="weather-error">Weather unavailable</div>';
-  }
-
-  // Next gala day (8am-2pm)
-  if (nextGala) {
-    const gh = LOCATIONS[nextGala.host] || LOCATIONS['Mount Beauty'];
-    try {
-      const label = galaEl.previousElementSibling;
-      if (label) label.textContent = `⚽ ${nextGala.host} · ${new Date(nextGala.date).toLocaleDateString('en-AU',{day:'numeric',month:'short'})}`;
-      let galaDaily = mbDaily, galaHourly = mbHourly;
-      if (nextGala.host !== 'Mount Beauty') {
-        [galaDaily, galaHourly] = await Promise.all([
-          fetchWeather(gh), fetchHourly(gh)
-        ]);
-      }
-      renderWeatherCard(galaEl, galaDaily, galaHourly, nextGala.date, false, 8, 14);
-    } catch(e) {
-      galaEl.innerHTML = '<div class="weather-error">Weather unavailable</div>';
-    }
-  } else {
-    galaEl.innerHTML = '<div class="weather-desc">Season complete!</div>';
-  }
-}
-
-// PAGE NAV
-function showPage(name, btn) {
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
-  document.getElementById('page-'+name).classList.add('active');
-  if (btn) btn.classList.add('active');
-  window.scrollTo({top:0,behavior:'smooth'});
-
-}
-
-function navTo(name) {
-  let btn = null;
-  document.querySelectorAll('.nav-btn').forEach(b => {
-    const oc = b.getAttribute('onclick') || '';
-    if (oc.includes("'"+name+"'")) btn = b;
-  });
-  if (btn) showPage(name, btn);
-}
-
-function excelToTime(dec) {
-  const mins=Math.round(dec*24*60);
-  let h=Math.floor(mins/60),m=mins%60;
-  const ampm=h>=12?'PM':'AM';
-  if(h>12)h-=12; if(h===0)h=12;
-  return{str:`${h}:${m.toString().padStart(2,'0')}`,ampm};
-}
-
 const fixtures=[
   {age:'Under 5',kick:0.3958333333333333,pitch:'Pitch 1',duration:'2 x 10min',t1:'Bright SC Black',t2:'Myrtleford SC Green'},
   {age:'Under 5',kick:0.3958333333333333,pitch:'Pitch 2',duration:'2 x 10min',t1:'Myrtleford SC Blue',t2:'Myrtleford SC White'},
@@ -800,264 +577,148 @@ const fixtures=[
   {age:'Under 8/9',kick:0.5,pitch:'Pitch 5',duration:'2 x 12min',t1:'Mt Beauty SC Green',t2:'Bright SC Black'},
   {age:'Under 8/9',kick:0.5,pitch:'Pitch 6',duration:'2 x 12min',t1:'Mt Beauty SC Red',t2:'Bright SC Red'},
   {age:'Under 8/9',kick:0.5208333333333334,pitch:'Pitch 5',duration:'2 x 12min',t1:'Myrtleford SC White',t2:'Bright SC Blue'},
-  {age:'Under 10/11',kick:0.3958333333333333,pitch:'Pitch 7',duration:'2 x 12min',t1:'Bright SC',t2:'Myrtleford SC Blue'},
-  {age:'Under 10/11',kick:0.3958333333333333,pitch:'Pitch 8',duration:'2 x 12min',t1:'Myrtleford SC White',t2:'Myrtleford SC Green'},
-  {age:'Under 10/11',kick:0.4166666666666667,pitch:'Pitch 7',duration:'2 x 12min',t1:'Myrtleford SC Red',t2:'Mt Beauty SC Green'},
-  {age:'Under 10/11',kick:0.4166666666666667,pitch:'Pitch 8',duration:'2 x 12min',t1:'Mt Beauty SC Red',t2:'Myrtleford SC Blue'},
-  {age:'Under 10/11',kick:0.4375,pitch:'Pitch 8',duration:'2 x 12min',t1:'Myrtleford SC Green',t2:'Bright SC'},
-  {age:'Under 10/11',kick:0.4583333333333333,pitch:'Pitch 8',duration:'2 x 12min',t1:'Myrtleford SC Blue',t2:'Myrtleford SC White'},
-  {age:'Under 10/11',kick:0.46875,pitch:'Pitch 7',duration:'2 x 12min',t1:'Myrtleford SC Red',t2:'Mt Beauty SC Red'},
-  {age:'Under 10/11',kick:0.4791666666666667,pitch:'Pitch 8',duration:'2 x 12min',t1:'Mt Beauty SC Green',t2:'Bright SC'},
-  {age:'Under 10/11',kick:0.5,pitch:'Pitch 8',duration:'2 x 12min',t1:'Mt Beauty SC Green',t2:'Myrtleford SC White'},
-  {age:'Under 10/11',kick:0.5208333333333334,pitch:'Pitch 8',duration:'2 x 12min',t1:'Myrtleford SC Green',t2:'Myrtleford SC Red'},
-  {age:'Under 12/13',kick:0.4375,pitch:'Pitch 7',duration:'2 x 15min',t1:'Mt Beauty SC',t2:'Bright SC Red'},
-  {age:'Under 12/13',kick:0.4895833333333333,pitch:'Pitch 7',duration:'2 x 15min',t1:'Bright SC Red',t2:'Bright SC Black'},
-  {age:'Under 12/13',kick:0.5208333333333334,pitch:'Pitch 7',duration:'2 x 15min',t1:'Bright SC Black',t2:'Mt Beauty SC'},
+  {age:'Under 10/11',kick:0.3958333333333333,pitch:'Pitch 7',duration:'2 x 12 min',t1:'Bright SC',t2:'Myrtleford SC Blue'},
+  {age:'Under 10/11',kick:0.3958333333333333,pitch:'Pitch 8',duration:'2 x 12 min',t1:'Myrtleford SC White',t2:'Myrtleford SC Green'},
+  {age:'Under 10/11',kick:0.4166666666666667,pitch:'Pitch 7',duration:'2 x 12 min',t1:'Myrtleford SC Red',t2:'Mt Beauty SC Green'},
+  {age:'Under 10/11',kick:0.4166666666666667,pitch:'Pitch 8',duration:'2 x 12 min',t1:'Mt Beauty SC Red',t2:'Myrtleford SC Blue'},
+  {age:'Under 12/13',kick:0.4375,pitch:'Pitch 7',duration:'2 x 15 min',t1:'Mt Beauty SC',t2:'Bright SC Red'},
+  {age:'Under 10/11',kick:0.4375,pitch:'Pitch 8',duration:'2 x 12 min',t1:'Myrtleford SC Green',t2:'Bright SC'},
+  {age:'Under 10/11',kick:0.4583333333333333,pitch:'Pitch 8',duration:'2 x 12 min',t1:'Myrtleford SC Blue',t2:'Myrtleford SC White'},
+  {age:'Under 10/11',kick:0.46875,pitch:'Pitch 7',duration:'2 x 12 min',t1:'Myrtleford SC Red',t2:'Mt Beauty SC Red'},
+  {age:'Under 10/11',kick:0.4791666666666667,pitch:'Pitch 8',duration:'2 x 12 min',t1:'Mt Beauty SC Green',t2:'Bright SC'},
+  {age:'Under 12/13',kick:0.4895833333333333,pitch:'Pitch 7',duration:'2 x 15 min',t1:'Bright SC Red',t2:'Bright SC Black'},
+  {age:'Under 10/11',kick:0.5,pitch:'Pitch 8',duration:'2 x 12 min',t1:'Mt Beauty SC Green',t2:'Myrtleford SC White'},
+  {age:'Under 12/13',kick:0.5208333333333334,pitch:'Pitch 7',duration:'2 x 15 min',t1:'Bright SC Black',t2:'Mt Beauty SC'},
+  {age:'Under 10/11',kick:0.5208333333333334,pitch:'Pitch 8',duration:'2 x 12 min',t1:'Myrtleford SC Green',t2:'Myrtleford SC Red'},
 ];
+const GALAS=[
+  {date:'2026-05-17',host:'Mount Beauty',done:true},
+  {date:'2026-05-23',host:'Myrtleford',done:false},
+  {date:'2026-05-31',host:'Mount Beauty',done:false},
+  {date:'2026-06-14',host:'Yackandandah',done:false},
+  {date:'2026-06-27',host:'Bright',done:false},
+];
+const LOCATIONS={'Mount Beauty':'r32xhb','Myrtleford':'r32rfz','Yackandandah':'r383mk','Bright':'r32x07'};
 
-// BUILD FIXTURES
+function showPage(name,btn){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  if(btn)btn.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(name==='results'){buildArchivedDraw('archived-draw-gala1',false);}
+  if(name==='photos'){document.getElementById('photo-iframe').src='https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ?autoplay=1&rel=0&modestbranding=1';}
+  else{const iframe=document.getElementById('photo-iframe');if(iframe)iframe.src='';}
+}
+function navTo(name){let btn=null;document.querySelectorAll('.nav-btn').forEach(b=>{const oc=b.getAttribute('onclick')||'';if(oc.includes("'"+name+"'"))btn=b;});if(btn)showPage(name,btn);}
+function excelToTime(dec){const totalMins=Math.round(dec*24*60);const h=Math.floor(totalMins/60);const m=totalMins%60;const ampm=h>=12?'PM':'AM';const h12=h%12||12;return{str:h12+(m>0?':'+String(m).padStart(2,'0'):''),ampm:ampm};}
+function filterAge(age,btn){document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');document.querySelectorAll('.age-group').forEach(s=>s.classList.toggle('hidden',age!=='all'&&s.dataset.age!==age));}
+function filterGala(id,btn){document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');document.querySelectorAll('.gala-section').forEach(s=>s.classList.toggle('hidden',s.id!==id));}
+function toggleGala(bodyId,btn){const body=document.getElementById(bodyId);const isHidden=body.style.display==='none';body.style.display=isHidden?'block':'none';btn.querySelector('.gala-chevron').style.transform=isHidden?'rotate(180deg)':'';}
+function toggleDropdown(id,btn){const el=document.getElementById(id);const chevron=document.getElementById(id+'-chevron');const isHidden=el.style.display==='none';el.style.display=isHidden?'block':'none';if(chevron)chevron.style.transform=isHidden?'rotate(180deg)':'';if(isHidden&&id==='fixture-drop-gala1'){buildArchivedDraw('archived-draw-gala1',false);}}
+function goToPitch(num){let btn=null;document.querySelectorAll('.nav-btn').forEach(b=>{const oc=b.getAttribute('onclick')||'';if(oc.includes("'map'"))btn=b;});showPage('map',btn);setTimeout(()=>showPitchMatches(num),300);}
+function showPitchMatches(num){const pitchName='Pitch '+num;const matches=fixtures.filter(f=>f.pitch===pitchName);if(!matches.length)return;const title=document.getElementById('pitch-panel-title');const content=document.getElementById('pitch-panel-matches');const panel=document.getElementById('pitch-panel');if(!title||!content||!panel)return;title.textContent=pitchName;const ageOrder=['Under 5','Under 7','Under 8/9','Under 10/11','Under 12/13'];const groups={};matches.forEach(m=>{if(!groups[m.age])groups[m.age]=[];groups[m.age].push(m);});let html='';ageOrder.forEach(age=>{if(!groups[age])return;html+='<div style="margin-bottom:12px;"><div style="font-family:\'Barlow Condensed\',sans-serif;font-weight:700;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px;">'+age+'</div>';groups[age].forEach(m=>{const t=excelToTime(m.kick);const mb1=m.t1.includes('Mt Beauty');const mb2=m.t2.includes('Mt Beauty');html+='<div class="match-card" style="margin-bottom:4px;"><div class="match-time">'+t.str+'<span class="match-time-ampm">'+t.ampm+'</span></div><div class="team team-home'+(mb1?' mb':'')+'">'+m.t1+'</div><div class="vs-badge">VS</div><div class="team team-away'+(mb2?' mb':'')+'">'+m.t2+'</div></div>';});html+='</div>';});content.innerHTML=html;panel.style.display='block';setTimeout(()=>panel.scrollIntoView({behavior:'smooth',block:'nearest'}),50);}
+
 const ageOrder=['Under 5','Under 7','Under 8/9','Under 10/11','Under 12/13'];
 const groups={};
 fixtures.forEach(f=>{if(!groups[f.age])groups[f.age]={duration:f.duration,matches:[]};groups[f.age].matches.push(f);});
 const filterBar=document.getElementById('filterBar');
 if(filterBar){ageOrder.forEach(age=>{if(!groups[age])return;const btn=document.createElement('button');btn.className='filter-btn';btn.textContent=age;btn.onclick=()=>filterAge(age,btn);filterBar.appendChild(btn);});}
 const drawInner=document.getElementById('draw-content-inner');
-if(drawInner){ageOrder.forEach(age=>{
-  if(!groups[age])return;
-  const g=groups[age];const sec=document.createElement('div');sec.className='age-group';sec.dataset.age=age;
-  const cards=g.matches.map(m=>{const t=excelToTime(m.kick);return`<div class="match-card"><div class="match-time">${t.str}<span class="match-time-ampm">${t.ampm}</span></div><div class="team team-home">${m.t1}</div><div class="vs-badge">VS</div><div class="team team-away">${m.t2}</div><button class="pitch-tag pitch-link" onclick="goToPitch(${m.pitch.split(' ')[1]})">${m.pitch} 📍</button></div>`;}).join('');
-  sec.innerHTML=`<div class="age-group-header"><span class="age-label">${age}</span><span class="duration-badge">${g.duration}</span><div class="age-line"></div></div><div class="matches-grid">${cards}</div>`;
-  drawInner.appendChild(sec);
-});}
-function filterAge(age,btn){document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');document.querySelectorAll('.age-group').forEach(s=>s.classList.toggle('hidden',age!=='all'&&s.dataset.age!==age));}
+if(drawInner){ageOrder.forEach(age=>{if(!groups[age])return;const g=groups[age];const sec=document.createElement('div');sec.className='age-group';sec.dataset.age=age;const cards=g.matches.map(m=>{const t=excelToTime(m.kick);const mb1=m.t1.includes('Mt Beauty');const mb2=m.t2.includes('Mt Beauty');return '<div class="match-card"><div class="match-time">'+t.str+'<span class="match-time-ampm">'+t.ampm+'</span></div><div class="team team-home'+(mb1?' mb':'')+'">'+m.t1+'</div><div class="vs-badge">VS</div><div class="team team-away'+(mb2?' mb':'')+'">'+m.t2+'</div><button class="pitch-tag pitch-link" onclick="goToPitch('+m.pitch.split(' ')[1]+')">'+m.pitch+' \uD83D\uDCCD</button></div>';}).join('');sec.innerHTML='<div class="age-group-header"><span class="age-label">'+age+'</span><span class="duration-badge">'+g.duration+'</span><div class="age-line"></div></div><div class="matches-grid">'+cards+'</div>';drawInner.appendChild(sec);});}
 
-// MT BEAUTY TEAMS
 const mbTeams=[
-  {name:'Mt Beauty SC Red',  label:'Red',    age:'Under 7',    ageFilter:'Under 7',
-   info:{coach:'TBD on day', note:'Teams formed on the day based on skills mix · Red vs Green derby at 11:00am — TBC pending pitch availability',
-    confirmed:['Elsie F','Fletcher','Arlo','Felix','Chester','Leo','Harper','Reuben H','Louis','Oscar','Alfie','Frankie','Millicent','Henry','Sierra','Luca'], pending:[], absent:['Lenox','Theodore','Ollie']}},
-  {name:'Mt Beauty SC Green',label:'Green',   age:'Under 7',    ageFilter:'Under 7',
-   info:{coach:'TBD on day', note:'Teams formed on the day based on skills mix · Red vs Green derby at 11:00am — TBC pending pitch availability',
-    confirmed:['Elsie F','Fletcher','Arlo','Felix','Chester','Leo','Harper','Reuben H','Louis','Oscar','Alfie','Frankie','Millicent','Henry','Sierra','Luca'], pending:[], absent:['Lenox','Theodore','Ollie']}},
-  {name:'Mt Beauty SC Red',  label:'U9 Red',  age:'Under 8/9',  ageFilter:'Under 8/9',
-   info:{coach:'Rachelle', note:'',
-    confirmed:['Banjo','Orion','Reuben','George','Travis','Gus','Sofia','Clover','Summer','Gene','Jaidyn'], pending:[], absent:[]}},
-  {name:'Mt Beauty SC Green',label:'U9 Green', age:'Under 8/9',  ageFilter:'Under 8/9',
-   info:{coach:'Erik', note:'',
-    confirmed:['Finn','Charlie','James','Hendrix','Matilda','Channing','Evie','Hughie','Harrison'], pending:[], absent:['Drift','Fletcher']}},
-  {name:'Mt Beauty SC Red',  label:'U11 Red', age:'Under 10/11',ageFilter:'Under 10/11',
-   info:{coach:'Rob', note:'Attendance may be affected by school camp',
-    confirmed:['Lawson','Goldie','Lolly (Lollita)','Cooper','Max','Craig (CJ)','Skye','Sam','Hugo','Jarrah','Zaine','Oliver'], pending:[], absent:[]}},
-  {name:'Mt Beauty SC Green',label:'U11 Green',age:'Under 10/11',ageFilter:'Under 10/11',
-   info:{coach:'Dave', note:'Attendance may be affected by school camp',
-    confirmed:['Luca','Miranda','Sienna','Archie','Hamish','Christian','Niels','Thelma','Erin','Kit','Loki'], pending:[], absent:[]}},
-  {name:'Mt Beauty SC',      label:'U13',     age:'Under 12/13',ageFilter:null,
-   info:{coach:'Sian', note:'',
-    confirmed:['Xander','Arthur','Peter','Andie','Chevi','Sebastian','Scarlette','Griffin','Sophie'], pending:[], absent:['Luella','Eloise']}},
+  {name:'Mt Beauty SC Red',label:'Red',age:'Under 7',ageFilter:'Under 7',info:{coach:'TBD on day',note:'Teams formed on the day based on skills mix \u00b7 Red vs Green derby at 11:00am \u2014 TBC pending pitch availability',confirmed:['Elsie F','Fletcher','Arlo','Felix','Chester','Leo','Harper','Reuben H','Louis','Oscar','Alfie','Frankie','Millicent','Henry','Sierra','Luca'],pending:[],absent:['Lenox','Theodore','Ollie']}},
+  {name:'Mt Beauty SC Green',label:'Green',age:'Under 7',ageFilter:'Under 7',info:{coach:'TBD on day',note:'Teams formed on the day based on skills mix \u00b7 Red vs Green derby at 11:00am \u2014 TBC pending pitch availability',confirmed:['Elsie F','Fletcher','Arlo','Felix','Chester','Leo','Harper','Reuben H','Louis','Oscar','Alfie','Frankie','Millicent','Henry','Sierra','Luca'],pending:[],absent:['Lenox','Theodore','Ollie']}},
+  {name:'Mt Beauty SC Red',label:'U9 Red',age:'Under 8/9',ageFilter:'Under 8/9',info:{coach:'Rachelle',note:'',confirmed:['Banjo','Orion','Reuben','George','Travis','Gus','Sofia','Clover','Summer','Gene','Jaidyn'],pending:[],absent:[]}},
+  {name:'Mt Beauty SC Green',label:'U9 Green',age:'Under 8/9',ageFilter:'Under 8/9',info:{coach:'Erik',note:'',confirmed:['Finn','Charlie','James','Hendrix','Matilda','Channing','Evie','Hughie','Harrison'],pending:[],absent:['Drift','Fletcher']}},
+  {name:'Mt Beauty SC Red',label:'U11 Red',age:'Under 10/11',ageFilter:'Under 10/11',info:{coach:'Rob',note:'Attendance may be affected by school camp',confirmed:['Lawson','Goldie','Lolly (Lollita)','Cooper','Max','Craig (CJ)','Skye','Sam','Hugo','Jarrah','Zaine','Oliver'],pending:[],absent:[]}},
+  {name:'Mt Beauty SC Green',label:'U11 Green',age:'Under 10/11',ageFilter:'Under 10/11',info:{coach:'Dave',note:'Attendance may be affected by school camp',confirmed:['Luca','Miranda','Sienna','Archie','Hamish','Christian','Niels','Thelma','Erin','Kit','Loki'],pending:[],absent:[]}},
+  {name:'Mt Beauty SC',label:'U13',age:'Under 12/13',ageFilter:null,info:{coach:'Sian',note:'',confirmed:['Xander','Arthur','Peter','Andie','Chevi','Sebastian','Scarlette','Griffin','Sophie'],pending:[],absent:['Luella','Eloise']}},
 ];
-
 const mbGrid=document.getElementById('mb-team-grid');
 const mbArea=document.getElementById('mb-matches-area');
-
 if(mbGrid){
-  const sections = [
-    {title:'U5/6 & U7 — 2 Teams · Coaches Sarah, Steff & Daniel', indices:[0,1]},
-    {title:'Under 9', indices:[2,3]},
-    {title:'Under 11', indices:[4,5]},
-    {title:'Under 13', indices:[6]},
-  ];
-  sections.forEach(section=>{
-    // Section header
-    const hdr=document.createElement('div');
-    hdr.style.cssText='grid-column:1/-1;font-family:"Barlow Condensed",sans-serif;font-weight:700;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);padding:4px 2px 2px;margin-top:4px;';
-    hdr.textContent=section.title;
-    mbGrid.appendChild(hdr);
-    section.indices.forEach(idx=>{
-      const team=mbTeams[idx];
-      const btn=document.createElement('button');
-      btn.className='mb-team-btn';
-      btn.id='mb-btn-'+idx;
-      btn.innerHTML=`<span style="font-size:17px;font-weight:800;">${team.label}</span>`;
-      btn.onclick=()=>showMbTeam(idx);
-      mbGrid.appendChild(btn);
-    });
-  });
+  const sections=[{title:'U5/6 & U7 \u2014 2 Teams \u00b7 Coaches Sarah, Steff & Daniel',indices:[0,1]},{title:'Under 9',indices:[2,3]},{title:'Under 11',indices:[4,5]},{title:'Under 13',indices:[6]}];
+  sections.forEach(section=>{const hdr=document.createElement('div');hdr.style.cssText='grid-column:1/-1;font-family:"Barlow Condensed",sans-serif;font-weight:700;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);padding:4px 2px 2px;margin-top:4px;';hdr.textContent=section.title;mbGrid.appendChild(hdr);section.indices.forEach(idx=>{const team=mbTeams[idx];const btn=document.createElement('button');btn.className='mb-team-btn';btn.id='mb-btn-'+idx;btn.innerHTML='<span style="font-size:17px;font-weight:800;">'+team.label+'</span>';btn.onclick=()=>showMbTeam(idx);mbGrid.appendChild(btn);});});
 }
-
 function showMbTeam(idx){
   document.querySelectorAll('.mb-team-btn').forEach(b=>b.classList.remove('active'));
-  const btn=document.getElementById('mb-btn-'+idx);
-  if(btn)btn.classList.add('active');
-  const team=mbTeams[idx];
-  const info=team.info;
-
-  // Attendance HTML
+  const btn=document.getElementById('mb-btn-'+idx);if(btn)btn.classList.add('active');
+  const team=mbTeams[idx];const info=team.info;
   let attendHTML='';
   if(info.confirmed.length){attendHTML+='<div style="margin-top:10px;"><div style="font-family:\'Barlow Condensed\',sans-serif;font-weight:700;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px;">\u2705 Confirmed ('+info.confirmed.length+')</div><div class="team-players">'+info.confirmed.join(', ')+'</div></div>';}
   if(info.pending.length){attendHTML+='<div style="margin-top:10px;"><div style="font-family:\'Barlow Condensed\',sans-serif;font-weight:700;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px;">\u2753 TBC</div><div class="team-players" style="color:var(--text-muted);">'+info.pending.join(', ')+'</div></div>';}
   if(info.absent.length){attendHTML+='<div style="margin-top:10px;"><div style="font-family:\'Barlow Condensed\',sans-serif;font-weight:700;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#c0392b;margin-bottom:6px;">\u274c Not Attending</div><div class="team-players" style="color:var(--text-muted);">'+info.absent.join(', ')+'</div></div>';}
   if(info.note){attendHTML+='<div style="margin-top:8px;font-size:12px;color:var(--text-muted);font-style:italic;">'+info.note+'</div>';}
-
-  // Team header
   const isU7=(team.ageFilter==='Under 7');
-  const teamTitle=isU7?'<span class="age-label">'+team.label+'</span><span class="age-chip" style="background:#e8f5ed;color:var(--green);border-color:rgba(26,107,58,0.3);">U5/6 & U7 Combined</span>':
-    '<span class="age-label">'+team.label+'</span><span class="age-chip">'+team.age+'</span>';
-  const coachLine=isU7?'<div class="team-coach">Coaches: <span>Sarah, Steff &amp; Daniel</span></div>':
-    '<div class="team-coach">Coach: <span>'+info.coach+'</span></div>';
-
-  // Fixtures
+  const teamTitle=isU7?'<span class="age-label">'+team.label+'</span><span class="age-chip" style="background:#e8f5ed;color:var(--green);border-color:rgba(26,107,58,0.3);">U5/6 & U7 Combined</span>':'<span class="age-label">'+team.label+'</span><span class="age-chip">'+team.age+'</span>';
+  const coachLine=isU7?'<div class="team-coach">Coaches: <span>Sarah, Steff &amp; Daniel</span></div>':'<div class="team-coach">Coach: <span>'+info.coach+'</span></div>';
   const matches=fixtures.filter(f=>(f.t1===team.name||f.t2===team.name)&&(team.ageFilter===null||f.age===team.ageFilter));
   const sorted=[...matches].sort((a,b)=>a.kick-b.kick);
-
-  // Game summary bar with gaps
   let gapHTML='';
-  if(sorted.length>0){
-    let parts='<span style="font-family:\'Barlow Condensed\',sans-serif;font-weight:700;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--text-muted);margin-right:6px;">'+sorted.length+' Game'+(sorted.length>1?'s':'')+'</span><span style="color:var(--grey-light);margin-right:6px;">|</span>';
-    sorted.forEach((m,i)=>{
-      const t=excelToTime(m.kick);
-      parts+='<span style="font-family:\'Barlow Condensed\',sans-serif;font-size:12px;font-weight:700;color:var(--green);">'+t.str+t.ampm+'</span>';
-      if(i<sorted.length-1){
-        const dur=m.duration.match(/\d+\s*x\s*(\d+)/);
-        const gl=dur?parseInt(dur[1])*2:20;
-        const endM=Math.round(m.kick*24*60)+gl;
-        const nextM=Math.round(sorted[i+1].kick*24*60);
-        const gap=nextM-endM;
-        parts+='<span style="color:var(--text-muted);margin:0 4px;font-size:11px;">+'+gap+'min</span>';
-      }
-    });
-    gapHTML='<div style="background:var(--green-pale);border:1px solid rgba(26,107,58,0.15);border-radius:8px;padding:8px 12px;margin-bottom:12px;display:flex;align-items:center;flex-wrap:wrap;gap:2px;">'+parts+'</div>';
-  }
-
-  // Live countdown
+  if(sorted.length>0){let parts='<span style="font-family:\'Barlow Condensed\',sans-serif;font-weight:700;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--text-muted);margin-right:6px;">'+sorted.length+' Game'+(sorted.length>1?'s':'')+'</span><span style="color:var(--grey-light);margin-right:6px;">|</span>';sorted.forEach((m,i)=>{const t=excelToTime(m.kick);parts+='<span style="font-family:\'Barlow Condensed\',sans-serif;font-size:12px;font-weight:700;color:var(--green);">'+t.str+t.ampm+'</span>';if(i<sorted.length-1){const dur=m.duration.match(/\d+\s*x\s*(\d+)/);const gl=dur?parseInt(dur[1])*2:20;const endM=Math.round(m.kick*24*60)+gl;const nextM=Math.round(sorted[i+1].kick*24*60);const gap=nextM-endM;parts+='<span style="color:var(--text-muted);margin:0 4px;font-size:11px;">+'+gap+'min</span>';}});gapHTML='<div style="background:var(--green-pale);border:1px solid rgba(26,107,58,0.15);border-radius:8px;padding:8px 12px;margin-bottom:12px;display:flex;align-items:center;flex-wrap:wrap;gap:2px;">'+parts+'</div>';}
   let countdownHTML='';
-  const galaDate='2026-05-23';
-  const now=new Date();
-  const nextMatch=sorted.find(m=>{
-    const sm=Math.round(m.kick*24*60);
-    const hh=Math.floor(sm/60);
-    const mm=sm%60;
-    const gd=new Date(galaDate+'T'+String(hh).padStart(2,'0')+':'+String(mm).padStart(2,'0')+':00+10:00');
-    return gd>now;
-  });
-  if(nextMatch){
-    const sm=Math.round(nextMatch.kick*24*60);
-    const hh=Math.floor(sm/60);
-    const mm=sm%60;
-    const gameDate=new Date(galaDate+'T'+String(hh).padStart(2,'0')+':'+String(mm).padStart(2,'0')+':00+10:00');
-    const cdId='cd-'+Math.random().toString(36).substr(2,5);
-    countdownHTML='<div style="background:white;border:1px solid var(--grey);border-radius:8px;padding:8px 12px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;"><span style="font-family:\'Barlow Condensed\',sans-serif;font-weight:700;font-size:12px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;">\u23f1 Next Game</span><span id="'+cdId+'" style="font-family:\'Barlow Condensed\',sans-serif;font-weight:800;font-size:16px;color:var(--green);"></span></div>';
-    const tick=()=>{
-      const el=document.getElementById(cdId);
-      if(!el)return;
-      const diff=gameDate-new Date();
-      if(diff<=0){el.textContent='NOW! \u{1F7E2}';return;}
-      const h=Math.floor(diff/3600000);
-      const m=Math.floor((diff%3600000)/60000);
-      const s=Math.floor((diff%60000)/1000);
-      el.textContent=h>0?h+'h '+m+'m':m+'m '+s+'s';
-      setTimeout(tick,1000);
-    };
-    setTimeout(tick,100);
-  } else if(sorted.length>0){
-    countdownHTML='<div style="background:white;border:1px solid var(--grey);border-radius:8px;padding:8px 12px;margin-bottom:12px;text-align:center;font-family:\'Barlow Condensed\',sans-serif;font-weight:700;font-size:12px;color:var(--text-muted);">All games complete \u2705</div>';
-  }
-
-  // Match cards
-  const cards=sorted.map(m=>{
-    const t=excelToTime(m.kick);
-    const pitchNum=m.pitch.split(' ')[1];
-    return '<div class="match-card highlight"><div class="match-time">'+t.str+'<span class="match-time-ampm">'+t.ampm+'</span><span style="font-size:9px;color:var(--text-muted);display:block;">'+m.duration+'</span></div><div class="team team-home'+(m.t1===team.name?' mb':'')+'">'+m.t1+'</div><div class="vs-badge">VS</div><div class="team team-away'+(m.t2===team.name?' mb':'')+'">'+m.t2+'</div><button class="pitch-tag pitch-link" onclick="goToPitch('+pitchNum+')">'+m.pitch+' \uD83D\uDCCD</button></div>';
-  }).join('');
-
+  const galaDate='2026-05-23';const now=new Date();
+  const nextMatch=sorted.find(m=>{const sm=Math.round(m.kick*24*60);const hh=Math.floor(sm/60);const mm=sm%60;const gd=new Date(galaDate+'T'+String(hh).padStart(2,'0')+':'+String(mm).padStart(2,'0')+':00+10:00');return gd>now;});
+  if(nextMatch){const sm=Math.round(nextMatch.kick*24*60);const hh=Math.floor(sm/60);const mm=sm%60;const gameDate=new Date(galaDate+'T'+String(hh).padStart(2,'0')+':'+String(mm).padStart(2,'0')+':00+10:00');const cdId='cd-'+Math.random().toString(36).substr(2,5);countdownHTML='<div style="background:white;border:1px solid var(--grey);border-radius:8px;padding:8px 12px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;"><span style="font-family:\'Barlow Condensed\',sans-serif;font-weight:700;font-size:12px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;">\u23f1 Next Game</span><span id="'+cdId+'" style="font-family:\'Barlow Condensed\',sans-serif;font-weight:800;font-size:16px;color:var(--green);"></span></div>';const tick=()=>{const el=document.getElementById(cdId);if(!el)return;const diff=gameDate-new Date();if(diff<=0){el.textContent='NOW!';return;}const h=Math.floor(diff/3600000);const m=Math.floor((diff%3600000)/60000);const s=Math.floor((diff%60000)/1000);el.textContent=h>0?h+'h '+m+'m':m+'m '+s+'s';setTimeout(tick,1000);};setTimeout(tick,100);}
+  else if(sorted.length>0){countdownHTML='<div style="background:white;border:1px solid var(--grey);border-radius:8px;padding:8px 12px;margin-bottom:12px;text-align:center;font-family:\'Barlow Condensed\',sans-serif;font-weight:700;font-size:12px;color:var(--text-muted);">All games complete \u2705</div>';}
+  const cards=sorted.map(m=>{const t=excelToTime(m.kick);const pitchNum=m.pitch.split(' ')[1];return '<div class="match-card highlight"><div class="match-time">'+t.str+'<span class="match-time-ampm">'+t.ampm+'</span><span style="font-size:9px;color:var(--text-muted);display:block;">'+m.duration+'</span></div><div class="team team-home'+(m.t1===team.name?' mb':'')+'">'+m.t1+'</div><div class="vs-badge">VS</div><div class="team team-away'+(m.t2===team.name?' mb':'')+'">'+m.t2+'</div><button class="pitch-tag pitch-link" onclick="goToPitch('+pitchNum+')">'+m.pitch+' \uD83D\uDCCD</button></div>';}).join('');
   mbArea.innerHTML='<div class="team-info" style="margin-bottom:16px;"><div class="age-group-header" style="margin-bottom:8px;">'+teamTitle+'<div class="age-line"></div></div>'+coachLine+attendHTML+'</div>'+gapHTML+countdownHTML+'<div class="mb-team-title" style="margin-bottom:10px;">Fixtures <span class="age-chip" style="font-size:11px;">Tap pitch for map</span></div><div class="matches-grid">'+(cards.length?cards:'<div style="color:var(--text-muted);font-size:13px;padding:10px;">No fixtures found</div>')+'</div>';
   setTimeout(()=>mbArea.scrollIntoView({behavior:'smooth',block:'nearest'}),50);
 }
 
-function showPitchMatches(pitchNum){
-  const pitchName='Pitch '+pitchNum;
-  const matches=fixtures.filter(f=>f.pitch===pitchName);
-  const ageGroups=[...new Set(matches.map(m=>m.age))];
-  document.getElementById('pitch-panel-title').textContent=pitchName+' · '+ageGroups.join(' & ');
-  document.getElementById('pitch-panel-matches').innerHTML=matches.map(m=>{const t=excelToTime(m.kick);return`<div class="match-card" style="margin-bottom:5px;"><div class="match-time">${t.str}<span class="match-time-ampm">${t.ampm}</span></div><div class="team team-home">${m.t1}</div><div class="vs-badge">VS</div><div class="team team-away">${m.t2}</div><div class="pitch-tag" style="font-size:9px;">${m.age}</div></div>`;}).join('');
-  const panel=document.getElementById('pitch-panel');
-  panel.style.display='block';
-  setTimeout(()=>panel.scrollIntoView({behavior:'smooth',block:'nearest'}),50);
+function buildArchivedDraw(containerId){
+  const container=document.getElementById(containerId);if(!container)return;
+  const ageOrder2=['Under 6','Under 7','Under 8/9','Under 10/11','Under 12/13'];
+  const groups2={};fixtures.forEach(f=>{if(!groups2[f.age])groups2[f.age]={duration:f.duration,matches:[]};groups2[f.age].matches.push(f);});
+  let html='';
+  ageOrder2.forEach(age=>{if(!groups2[age])return;const g=groups2[age];const cards=g.matches.map(m=>{const t=excelToTime(m.kick);return '<div class="match-card"><div class="match-time">'+t.str+'<span class="match-time-ampm">'+t.ampm+'</span></div><div class="team team-home">'+m.t1+'</div><div class="vs-badge">VS</div><div class="team team-away">'+m.t2+'</div><div class="pitch-tag">'+m.pitch+'</div></div>';}).join('');html+='<div class="age-group" style="margin-bottom:16px;"><div class="age-group-header"><span class="age-label">'+age+'</span><span class="duration-badge">'+g.duration+'</span><div class="age-line"></div></div><div class="matches-grid">'+cards+'</div></div>';});
+  container.innerHTML=html;
 }
 
-function toggleDropdown(id, btn) {
-  const el = document.getElementById(id);
-  const chevron = document.getElementById(id + '-chevron');
-  const isHidden = el.style.display === 'none';
-  el.style.display = isHidden ? 'block' : 'none';
-  if (chevron) chevron.style.transform = isHidden ? 'rotate(180deg)' : '';
-  // Build fixture content when opened
-  if (isHidden && id === 'fixture-drop-gala1') {
-    buildArchivedDraw('archived-draw-gala1', false);
-  }
+function uvColor(val){if(val===null||val===undefined)return{bg:'#f4f6f4',color:'#5a7060',label:'N/A'};if(val<=2)return{bg:'#e8f5ed',color:'#1a6b3a',label:'UV '+val+' - Low'};if(val<=5)return{bg:'#fff8e1',color:'#a07000',label:'UV '+val+' - Moderate'};if(val<=7)return{bg:'#fff0e0',color:'#c05000',label:'UV '+val+' - High'};if(val<=10)return{bg:'#fde8e8',color:'#c0392b',label:'UV '+val+' - Very High'};return{bg:'#f0d0f0',color:'#7a0080',label:'UV '+val+' - Extreme'};}
+function getWeatherIcon(desc){const d=(desc||'').toLowerCase();if(d.includes('thunder'))return'&#9928;';if(d.includes('snow'))return'&#10052;';if(d.includes('rain')||d.includes('shower'))return'&#127783;';if(d.includes('cloud'))return'&#9729;';if(d.includes('partly'))return'&#9925;';if(d.includes('wind'))return'&#127788;';if(d.includes('fog')||d.includes('mist'))return'&#127787;';if(d.includes('clear')||d.includes('sunny'))return'&#9728;';return'&#127780;';}
+function buildHourlyBar(hours){if(!hours.length)return'<div style="font-size:12px;color:var(--text-muted);">No hourly data</div>';const cells=hours.map(h=>{const d=new Date(h.time);const hr=d.getHours();const ampm=hr>=12?'pm':'am';const h12=hr%12||12;const temp=(h.temp!==null&&h.temp!==undefined)?h.temp+'&deg;':'&mdash;';const rain=(h.rain&&h.rain.chance!==null)?h.rain.chance+'%':'&mdash;';return '<div style="flex:1;text-align:center;padding:4px 2px;min-width:36px;"><div style="font-family:\'Barlow Condensed\',sans-serif;font-weight:800;font-size:11px;color:var(--green);">'+h12+ampm+'</div><div style="font-weight:700;font-size:13px;color:var(--text);margin:2px 0;">'+temp+'</div><div style="font-size:11px;color:#1a6b3a;">&#127783;'+rain+'</div></div>';}).join('<div style="width:1px;background:var(--grey-light);align-self:stretch;"></div>');return '<div style="display:flex;align-items:stretch;border:1px solid var(--grey-light);border-radius:8px;overflow:hidden;">'+cells+'</div>';}
+async function fetchWeather(g){const r=await fetch('https://api.weather.bom.gov.au/v1/locations/'+g+'/forecasts/daily');if(!r.ok)throw new Error('fail');return(await r.json()).data;}
+async function fetchHourly(g){const r=await fetch('https://api.weather.bom.gov.au/v1/locations/'+g+'/forecasts/hourly');if(!r.ok)throw new Error('fail');return(await r.json()).data;}
+function renderWeatherCard(el,daily,hourly,targetDate,isTraining,h1,h2){
+  const entry=daily.find(d=>d.date&&d.date.startsWith(targetDate))||daily[0];
+  if(!entry){el.innerHTML='<div class="weather-error">No forecast available</div>';return;}
+  const icon=getWeatherIcon(entry.icon_descriptor);
+  const max=(entry.temp_max!==null&&entry.temp_max!==undefined)?entry.temp_max+'&deg;':'&mdash;';
+  const min=(entry.temp_min!==null&&entry.temp_min!==undefined)?entry.temp_min+'&deg;':'&mdash;';
+  const rain=entry.rain?entry.rain.chance+'%':'&mdash;';
+  const desc=isTraining?(entry.now?entry.now.short_text:entry.short_text)||entry.short_text||'':entry.short_text||'';
+  const uvVal=entry.uv&&entry.uv.max_index!==undefined?entry.uv.max_index:null;
+  const uv=uvColor(uvVal);
+  const hrs=(hourly||[]).filter(h=>{const d=new Date(h.time);const ld=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');return ld===targetDate&&d.getHours()>=h1&&d.getHours()<=h2;}).sort((a,b)=>new Date(a.time).getTime()-new Date(b.time).getTime());
+  const bar=buildHourlyBar(hrs);
+  el.innerHTML='<div style="display:flex;align-items:center;gap:12px;margin-bottom:10px;"><div class="weather-icon" style="margin:0;font-size:32px;">'+icon+'</div><div><div class="weather-temp" style="line-height:1;">'+max+' <span>/ '+min+'</span></div><div class="weather-desc" style="margin-top:2px;">'+(desc||entry.icon_descriptor||'')+'</div></div><div style="margin-left:auto;text-align:right;"><span style="display:inline-block;background:'+uv.bg+';color:'+uv.color+';font-family:\'Barlow Condensed\',sans-serif;font-weight:700;font-size:11px;padding:3px 8px;border-radius:8px;letter-spacing:0.5px;">'+uv.label+'</span><div class="weather-pill" style="margin-top:4px;display:inline-block;">&#127783; '+rain+'</div></div></div><div style="margin-top:6px;">'+bar+'</div>';
+}
+function getNextTuesday(){const d=new Date();const day=d.getDay();const diff=day<=2?(2-day):(9-day);d.setDate(d.getDate()+diff);return d.toISOString().split('T')[0];}
+function getNextWednesday(){const d=new Date();const day=d.getDay();const diff=day<=3?(3-day):(10-day);d.setDate(d.getDate()+diff);return d.toISOString().split('T')[0];}
+async function loadWeather(){
+  const nextGala=GALAS.find(g=>!g.done);
+  const galaEl=document.getElementById('weather-gala');
+  const trainEl=document.getElementById('weather-training');
+  const u13El=document.getElementById('weather-training-u13');
+  let mbDaily=[],mbHourly=[];
+  try{[mbDaily,mbHourly]=await Promise.all([fetchWeather(LOCATIONS['Mount Beauty']),fetchHourly(LOCATIONS['Mount Beauty'])]);}catch(e){}
+  if(u13El){try{renderWeatherCard(u13El,mbDaily,mbHourly,getNextTuesday(),true,15,18);}catch(e){u13El.innerHTML='<div class="weather-error">Weather unavailable</div>';}}
+  try{renderWeatherCard(trainEl,mbDaily,mbHourly,getNextWednesday(),true,15,18);}catch(e){trainEl.innerHTML='<div class="weather-error">Weather unavailable</div>';}
+  if(nextGala){
+    const gh=LOCATIONS[nextGala.host]||LOCATIONS['Mount Beauty'];
+    try{
+      const label=galaEl.previousElementSibling;
+      if(label)label.textContent='&#9917; '+nextGala.host+' &middot; '+new Date(nextGala.date).toLocaleDateString('en-AU',{day:'numeric',month:'short'});
+      let gd=mbDaily,gh2=mbHourly;
+      if(nextGala.host!=='Mount Beauty'){[gd,gh2]=await Promise.all([fetchWeather(gh),fetchHourly(gh)]);}
+      renderWeatherCard(galaEl,gd,gh2,nextGala.date,false,8,14);
+    }catch(e){galaEl.innerHTML='<div class="weather-error">Weather unavailable</div>';}
+  }else{galaEl.innerHTML='<div class="weather-desc">Season complete!</div>';}
 }
 
-function toggleGala(bodyId, btn) {
-  const body = document.getElementById(bodyId);
-  const chevron = btn.querySelector('.gala-chevron');
-  body.classList.toggle('hidden');
-  if (chevron) chevron.classList.toggle('open');
-}
-
-function filterGala(galaId, btn) {
-  document.querySelectorAll('#galaFilterBar .filter-btn').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  document.querySelectorAll('.gala-section').forEach(s=>s.classList.toggle('hidden', s.id !== galaId));
-}
-
-function goToPitch(pitchNum){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
-  document.getElementById('page-map').classList.add('active');
-  const mapBtn = document.querySelector('.nav-btn[onclick*="map"]');
-  if (mapBtn) mapBtn.classList.add('active');
-  showPitchMatches(pitchNum);
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-
-// BUILD ARCHIVED GALA 1 FIXTURE
-function buildArchivedDraw(containerId, filterTeam) {
-  const container = document.getElementById(containerId);
-  if (!container) return;
-  const ageOrder = ['Under 5','Under 6','Under 7','Under 8/9','Under 10/11','Under 12/13'];
-  const groups = {};
-  let fixtureList = fixtures;
-  if (filterTeam) {
-    fixtureList = fixtures.filter(f => f.t1.includes('Mt Beauty') || f.t2.includes('Mt Beauty'));
-  }
-  fixtureList.forEach(f => {
-    if (!groups[f.age]) groups[f.age] = { duration: f.duration, matches: [] };
-    groups[f.age].matches.push(f);
-  });
-  let html = '';
-  ageOrder.forEach(age => {
-    if (!groups[age]) return;
-    const g = groups[age];
-    const cards = g.matches.map(m => {
-      const t = excelToTime(m.kick);
-      const t1mb = m.t1.includes('Mt Beauty');
-      const t2mb = m.t2.includes('Mt Beauty');
-      return `<div class="match-card" style="margin-bottom:5px;">
-        <div class="match-time">${t.str}<span class="match-time-ampm">${t.ampm}</span></div>
-        <div class="team team-home${t1mb && filterTeam ? ' mb' : ''}">${m.t1}</div>
-        <div class="vs-badge">VS</div>
-        <div class="team team-away${t2mb && filterTeam ? ' mb' : ''}">${m.t2}</div>
-        <div class="pitch-tag">${m.pitch}</div>
-      </div>`;
-    }).join('');
-    html += `<div class="age-group" style="margin-bottom:16px;">
-      <div class="age-group-header"><span class="age-label">${age}</span><span class="duration-badge">${g.duration}</span><div class="age-line"></div></div>
-      <div class="matches-grid">${cards}</div>
-    </div>`;
-  });
-  container.innerHTML = html;
-}
-
-// Load weather on startup
 loadWeather();
 </script>
 </body>
