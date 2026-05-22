@@ -535,23 +535,6 @@ footer { text-align: center; padding: 14px; color: var(--text-muted); font-size:
       allow="autoplay; encrypted-media"
       allowfullscreen>
     </iframe>
-    <div id="unmute-btn" onclick="unmuteVideo()" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);cursor:pointer;z-index:1000;text-align:center;">
-      <div style="background:white;border-radius:16px;padding:20px 28px;box-shadow:0 8px 32px rgba(0,0,0,0.5);">
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:3px;width:72px;margin:0 auto 10px;">
-          <div style="aspect-ratio:1;background:#7aad5a;border-radius:3px;"></div>
-          <div style="aspect-ratio:1;background:#5a8f3c;border-radius:3px;"></div>
-          <div style="aspect-ratio:1;background:#3d7a2a;border-radius:3px;"></div>
-          <div style="aspect-ratio:1;background:#4e8c35;border-radius:3px;"></div>
-          <div style="aspect-ratio:1;background:#6aa348;border-radius:3px;"></div>
-          <div style="aspect-ratio:1;background:#2e6b1e;border-radius:3px;"></div>
-          <div style="aspect-ratio:1;background:#5f9e42;border-radius:3px;"></div>
-          <div style="aspect-ratio:1;background:#447d2e;border-radius:3px;"></div>
-          <div style="aspect-ratio:1;background:#78b055;border-radius:3px;"></div>
-        </div>
-        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:14px;letter-spacing:1px;text-transform:uppercase;color:#1a1a1a;">Open Album</div>
-        <div style="font-size:11px;color:#888;margin-top:2px;">Gala 1 · 24 photos</div>
-      </div>
-    </div>
   </div>
 </div>
 
@@ -624,7 +607,7 @@ function showPage(name,btn){
   if(btn)btn.classList.add('active');
   window.scrollTo({top:0,behavior:'smooth'});
   if(name==='results'){buildArchivedDraw('archived-draw-gala1',false);}
-  if(name==='photos'){document.getElementById('photo-iframe').src='https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ?autoplay=1&mute=1&rel=0&modestbranding=1&playsinline=1';document.getElementById('unmute-btn').style.display='flex';}
+  if(name==='photos'){document.getElementById('photo-iframe').src='https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ?autoplay=1&rel=0&modestbranding=1';}
   else{const iframe=document.getElementById('photo-iframe');if(iframe)iframe.src='';}
 }
 function navTo(name){let btn=null;document.querySelectorAll('.nav-btn').forEach(b=>{const oc=b.getAttribute('onclick')||'';if(oc.includes("'"+name+"'"))btn=b;});if(btn)showPage(name,btn);}
@@ -734,13 +717,6 @@ async function loadWeather(){
       renderWeatherCard(galaEl,gd,gh2,nextGala.date,false,8,14);
     }catch(e){galaEl.innerHTML='<div class="weather-error">Weather unavailable</div>';}
   }else{galaEl.innerHTML='<div class="weather-desc">Season complete!</div>';}
-}
-
-function unmuteVideo(){
-  const iframe=document.getElementById('photo-iframe');
-  const btn=document.getElementById('unmute-btn');
-  iframe.src=iframe.src.replace('mute=1','mute=0');
-  btn.style.display='none';
 }
 
 loadWeather();
