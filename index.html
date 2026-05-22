@@ -529,13 +529,12 @@ footer { text-align: center; padding: 14px; color: var(--text-muted); font-size:
 <!-- PHOTOS -->
 <div id="page-photos" class="page">
   <div style="position:fixed;top:0;left:0;width:100%;height:100%;background:#000;z-index:999;">
-    <iframe
-      id="photo-iframe"
-      style="width:100%;height:100%;border:none;"
-      allow="autoplay; encrypted-media"
-      allowfullscreen>
-    </iframe>
-
+    <video id="photo-video"
+      style="width:100%;height:100%;object-fit:cover;"
+      playsinline
+      preload="none">
+      <source src="https://res.cloudinary.com/dbffizo5x/video/upload/v1779447736/rickroll_as9ozi.ts" type="video/mp4">
+    </video>
   </div>
 </div>
 
@@ -608,8 +607,12 @@ function showPage(name,btn){
   if(btn)btn.classList.add('active');
   window.scrollTo({top:0,behavior:'smooth'});
   if(name==='results'){buildArchivedDraw('archived-draw-gala1',false);}
-  if(name==='photos'){document.getElementById('photo-iframe').src='https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ?autoplay=1&mute=0&rel=0&modestbranding=1&playsinline=1';}
-  else{const iframe=document.getElementById('photo-iframe');if(iframe)iframe.src='';}
+  if(name==='photos'){
+    const v=document.getElementById('photo-video');
+    v.volume=1;
+    v.play().catch(()=>{});
+  }
+  else{const v=document.getElementById('photo-video');if(v){v.pause();v.currentTime=0;}}
 }
 function navTo(name){let btn=null;document.querySelectorAll('.nav-btn').forEach(b=>{const oc=b.getAttribute('onclick')||'';if(oc.includes("'"+name+"'"))btn=b;});if(btn)showPage(name,btn);}
 function excelToTime(dec){const totalMins=Math.round(dec*24*60);const h=Math.floor(totalMins/60);const m=totalMins%60;const ampm=h>=12?'PM':'AM';const h12=h%12||12;return{str:h12+(m>0?':'+String(m).padStart(2,'0'):''),ampm:ampm};}
@@ -721,26 +724,7 @@ async function loadWeather(){
 }
 
 function photosNavClick(btn){
-  // Use Web Audio API to unlock audio context on this user gesture
-  // then immediately load video with sound in same event loop
-  try {
-    const AudioContext = window.AudioContext || window.webkitAudioContext;
-    if(AudioContext) {
-      const ctx = new AudioContext();
-      const buf = ctx.createBuffer(1,1,22050);
-      const src = ctx.createBufferSource();
-      src.buffer = buf;
-      src.connect(ctx.destination);
-      src.start(0);
-      ctx.resume().then(()=>{
-        showPage('photos', btn);
-      });
-    } else {
-      showPage('photos', btn);
-    }
-  } catch(e) {
-    showPage('photos', btn);
-  }
+  showPage('photos', btn);
 }
 
 function unmuteVideo(){
