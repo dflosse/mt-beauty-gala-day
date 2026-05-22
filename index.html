@@ -591,27 +591,22 @@ function uvColor(val) {
   return {bg:'#f0d0f0', color:'#7a0080', label:`UV ${val} — Extreme`};
 }
 
-function formatHourlyRow(h) {
-  const d = new Date(h.time);
-  const hour = d.getHours();
-  const ampm = hour >= 12 ? 'PM' : 'AM';
-  const h12 = hour % 12 || 12;
-  const timeStr = `${h12}${ampm}`;
-  const temp = (h.temp !== null && h.temp !== undefined) ? h.temp + '°' : '—';
-  const icon = getWeatherIcon(h.icon_descriptor || '');
-  const rain = (h.rain && h.rain.chance !== null) ? h.rain.chance + '%' : '—';
-  const desc = h.short_text || h.icon_descriptor || '—';
-  return `<div style="display:flex;align-items:center;gap:0;padding:6px 0;border-bottom:1px solid var(--grey-light);font-size:12px;">
-    <span style="width:44px;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:13px;color:var(--green);flex-shrink:0;">${timeStr}</span>
-    <span style="width:2px;color:var(--grey);flex-shrink:0;">|</span>
-    <span style="width:28px;text-align:center;flex-shrink:0;">${icon}</span>
-    <span style="width:2px;color:var(--grey);flex-shrink:0;">|</span>
-    <span style="width:34px;font-family:'Barlow Condensed',sans-serif;font-weight:700;color:var(--text);flex-shrink:0;">${temp}</span>
-    <span style="width:2px;color:var(--grey);flex-shrink:0;">|</span>
-    <span style="flex:1;color:var(--text-muted);font-size:11px;padding:0 6px;">${desc}</span>
-    <span style="width:2px;color:var(--grey);flex-shrink:0;">|</span>
-    <span style="width:38px;text-align:right;color:#1a6b3a;font-weight:700;font-size:11px;">🌧${rain}</span>
-  </div>`;
+function buildHourlyBar(hours) {
+  if (!hours.length) return '<div style="font-size:12px;color:var(--text-muted);">No hourly data</div>';
+  const cells = hours.map(h => {
+    const d = new Date(h.time);
+    const hr = d.getHours();
+    const ampm = hr >= 12 ? 'pm' : 'am';
+    const h12 = hr % 12 || 12;
+    const temp = (h.temp !== null && h.temp !== undefined) ? h.temp + '°' : '—';
+    const rain = (h.rain && h.rain.chance !== null) ? h.rain.chance + '%' : '—';
+    return `<div style="flex:1;text-align:center;padding:4px 2px;min-width:36px;">
+      <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:11px;color:var(--green);">${h12}${ampm}</div>
+      <div style="font-weight:700;font-size:13px;color:var(--text);margin:2px 0;">${temp}</div>
+      <div style="font-size:11px;color:#1a6b3a;">🌧${rain}</div>
+    </div>`;
+  }).join('<div style="width:1px;background:var(--grey-light);align-self:stretch;"></div>');
+  return `<div style="display:flex;align-items:stretch;border:1px solid var(--grey-light);border-radius:8px;overflow:hidden;">${cells}</div>`;
 }
 
 function getNextWednesday() {
@@ -652,9 +647,7 @@ function renderWeatherCard(el, dailyData, hourlyData, targetDate, isTraining, ho
     return d.toISOString().startsWith(targetDate) && d.getHours() >= hourStart && d.getHours() <= hourEnd;
   }).sort((a,b) => new Date(a.time) - new Date(b.time));
 
-  const hourlyRows = relevantHours.length > 0
-    ? relevantHours.map(formatHourlyRow).join('')
-    : '<div style="font-size:12px;color:var(--text-muted);padding:8px 0;">No hourly data available</div>';
+  const hourlyBar = buildHourlyBar(relevantHours);
 
   el.innerHTML = `
     <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px;">
@@ -668,7 +661,7 @@ function renderWeatherCard(el, dailyData, hourlyData, targetDate, isTraining, ho
         <div class="weather-pill" style="margin-top:4px;display:inline-block;">🌧 ${rain}</div>
       </div>
     </div>
-    <div style="border-top:1px solid var(--grey-light);padding-top:6px;">${hourlyRows}</div>`;
+    <div style="margin-top:6px;">${hourlyBar}</div>`;
 }
 
 async function loadWeather() {
