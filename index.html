@@ -652,13 +652,12 @@ function renderWeatherCard(el, dailyData, hourlyData, targetDate, isTraining, ho
     return d.toISOString().startsWith(targetDate) && d.getHours() >= hourStart && d.getHours() <= hourEnd;
   }).sort((a,b) => new Date(a.time) - new Date(b.time));
 
-  const hourlyId = 'hourly-' + Math.random().toString(36).substr(2,6);
   const hourlyRows = relevantHours.length > 0
     ? relevantHours.map(formatHourlyRow).join('')
     : '<div style="font-size:12px;color:var(--text-muted);padding:8px 0;">No hourly data available</div>';
 
   el.innerHTML = `
-    <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px;">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px;">
       <div class="weather-icon" style="margin:0;font-size:32px;">${icon}</div>
       <div>
         <div class="weather-temp" style="line-height:1;">${max} <span>/ ${min}</span></div>
@@ -669,11 +668,7 @@ function renderWeatherCard(el, dailyData, hourlyData, targetDate, isTraining, ho
         <div class="weather-pill" style="margin-top:4px;display:inline-block;">🌧 ${rain}</div>
       </div>
     </div>
-    <button onclick="document.getElementById('${hourlyId}').style.display=document.getElementById('${hourlyId}').style.display==='none'?'block':'none'"
-      style="width:100%;background:var(--grey-light);border:1px solid var(--grey);border-radius:6px;padding:6px 10px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--text-muted);cursor:pointer;text-align:left;">
-      🕐 Hourly Forecast ▼
-    </button>
-    <div id="${hourlyId}" style="display:none;margin-top:6px;">${hourlyRows}</div>`;
+    <div style="border-top:1px solid var(--grey-light);padding-top:6px;">${hourlyRows}</div>`;
 }
 
 async function loadWeather() {
