@@ -769,7 +769,7 @@ const fixtures=[
   {age:'Under 7',kick:0.4791666666666667,pitch:'Pitch 4',duration:'2 x 10min',t1:'Myrtleford SC U6',t2:'Bright SC Red'},
   {age:'Under 7',kick:0.5,pitch:'Pitch 1',duration:'2 x 10min',t1:'Myrtleford SC White',t2:'Bright SC White'},
   {age:'Under 7',kick:0.5,pitch:'Pitch 2',duration:'2 x 10min',t1:'Yackandandah FC',t2:'Bright SC Black'},
-  {age:'Under 7',kick:0.5,pitch:'Pitch 3',duration:'2 x 10min',t1:'Mt Beauty SC Green',t2:'Bright SC Red'},
+  {age:'Under 7',kick:0.5,pitch:'Pitch 3',duration:'2 x 10min',t1:'Mt Beauty SC Red',t2:'Bright SC Red'},
   {age:'Under 8/9',kick:0.3958333333333333,pitch:'Pitch 5',duration:'2 x 12min',t1:'Bright SC Red',t2:'Mt Beauty SC Green'},
   {age:'Under 8/9',kick:0.3958333333333333,pitch:'Pitch 6',duration:'2 x 12min',t1:'Bright SC Black',t2:'Yackandandah FC'},
   {age:'Under 8/9',kick:0.4166666666666667,pitch:'Pitch 5',duration:'2 x 12min',t1:'Bright SC White',t2:'Myrtleford SC White'},
@@ -785,12 +785,12 @@ const fixtures=[
   {age:'Under 8/9',kick:0.5208333333333334,pitch:'Pitch 5',duration:'2 x 12min',t1:'Myrtleford SC White',t2:'Bright SC Blue'},
   {age:'Under 10/11',kick:0.3958333333333333,pitch:'Pitch 7',duration:'2 x 12min',t1:'Bright SC',t2:'Myrtleford SC Blue'},
   {age:'Under 10/11',kick:0.3958333333333333,pitch:'Pitch 8',duration:'2 x 12min',t1:'Myrtleford SC White',t2:'Myrtleford SC Green'},
-  {age:'Under 10/11',kick:0.4166666666666667,pitch:'Pitch 7',duration:'2 x 12min',t1:'Myrtleford SC Red',t2:'Mt Beauty SC Red'},
-  {age:'Under 10/11',kick:0.4166666666666667,pitch:'Pitch 8',duration:'2 x 12min',t1:'Mt Beauty SC Green',t2:'Myrtleford SC Blue'},
+  {age:'Under 10/11',kick:0.4166666666666667,pitch:'Pitch 7',duration:'2 x 12min',t1:'Myrtleford SC Red',t2:'Mt Beauty SC Green'},
+  {age:'Under 10/11',kick:0.4166666666666667,pitch:'Pitch 8',duration:'2 x 12min',t1:'Mt Beauty SC Red',t2:'Myrtleford SC Blue'},
   {age:'Under 10/11',kick:0.4375,pitch:'Pitch 8',duration:'2 x 12min',t1:'Myrtleford SC Green',t2:'Bright SC'},
   {age:'Under 10/11',kick:0.4583333333333333,pitch:'Pitch 8',duration:'2 x 12min',t1:'Myrtleford SC Blue',t2:'Myrtleford SC White'},
-  {age:'Under 10/11',kick:0.46875,pitch:'Pitch 7',duration:'2 x 12min',t1:'Myrtleford SC Red',t2:'Mt Beauty SC Green'},
-  {age:'Under 10/11',kick:0.4791666666666667,pitch:'Pitch 8',duration:'2 x 12min',t1:'Mt Beauty SC Red',t2:'Bright SC'},
+  {age:'Under 10/11',kick:0.46875,pitch:'Pitch 7',duration:'2 x 12min',t1:'Myrtleford SC Red',t2:'Mt Beauty SC Red'},
+  {age:'Under 10/11',kick:0.4791666666666667,pitch:'Pitch 8',duration:'2 x 12min',t1:'Mt Beauty SC Green',t2:'Bright SC'},
   {age:'Under 10/11',kick:0.5,pitch:'Pitch 8',duration:'2 x 12min',t1:'Mt Beauty SC Green',t2:'Myrtleford SC White'},
   {age:'Under 10/11',kick:0.5208333333333334,pitch:'Pitch 8',duration:'2 x 12min',t1:'Myrtleford SC Green',t2:'Myrtleford SC Red'},
   {age:'Under 12/13',kick:0.4375,pitch:'Pitch 7',duration:'2 x 15min',t1:'Mt Beauty SC',t2:'Bright SC Red'},
@@ -817,10 +817,10 @@ function filterAge(age,btn){document.querySelectorAll('.filter-btn').forEach(b=>
 // MT BEAUTY TEAMS
 const mbTeams=[
   {name:'Mt Beauty SC Red',  label:'Red',    age:'Under 7',    ageFilter:'Under 7',
-   info:{coach:'TBD on day', note:'Teams formed on the day based on skills mix',
+   info:{coach:'TBD on day', note:'Teams formed on the day based on skills mix · Red vs Green derby at 11:00am — TBC pending pitch availability',
     confirmed:['Elsie F','Fletcher','Arlo','Felix','Chester','Leo','Harper','Reuben H','Louis','Oscar','Alfie','Frankie','Millicent','Henry','Sierra','Luca'], pending:[], absent:['Lenox','Theodore','Ollie']}},
   {name:'Mt Beauty SC Green',label:'Green',   age:'Under 7',    ageFilter:'Under 7',
-   info:{coach:'TBD on day', note:'Teams formed on the day based on skills mix',
+   info:{coach:'TBD on day', note:'Teams formed on the day based on skills mix · Red vs Green derby at 11:00am — TBC pending pitch availability',
     confirmed:['Elsie F','Fletcher','Arlo','Felix','Chester','Leo','Harper','Reuben H','Louis','Oscar','Alfie','Frankie','Millicent','Henry','Sierra','Luca'], pending:[], absent:['Lenox','Theodore','Ollie']}},
   {name:'Mt Beauty SC Red',  label:'U9 Red',  age:'Under 8/9',  ageFilter:'Under 8/9',
    info:{coach:'Rachelle', note:'',
@@ -873,27 +873,89 @@ function showMbTeam(idx){
   if(btn)btn.classList.add('active');
   const team=mbTeams[idx];
   const info=team.info;
+
+  // Attendance HTML
   let attendHTML='';
-  if(info.confirmed.length){attendHTML+=`<div style="margin-top:10px;"><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px;">✅ Confirmed (${info.confirmed.length})</div><div class="team-players">${info.confirmed.join(', ')}</div></div>`;}
-  if(info.pending.length){attendHTML+=`<div style="margin-top:10px;"><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px;">❓ TBC</div><div class="team-players" style="color:var(--text-muted);">${info.pending.join(', ')}</div></div>`;}
-  if(info.absent.length){attendHTML+=`<div style="margin-top:10px;"><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#c0392b;margin-bottom:6px;">❌ Not Attending</div><div class="team-players" style="color:var(--text-muted);">${info.absent.join(', ')}</div></div>`;}
-  if(info.note){attendHTML+=`<div style="margin-top:8px;font-size:12px;color:var(--text-muted);font-style:italic;">${info.note}</div>`;}
+  if(info.confirmed.length){attendHTML+='<div style="margin-top:10px;"><div style="font-family:\'Barlow Condensed\',sans-serif;font-weight:700;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px;">\u2705 Confirmed ('+info.confirmed.length+')</div><div class="team-players">'+info.confirmed.join(', ')+'</div></div>';}
+  if(info.pending.length){attendHTML+='<div style="margin-top:10px;"><div style="font-family:\'Barlow Condensed\',sans-serif;font-weight:700;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px;">\u2753 TBC</div><div class="team-players" style="color:var(--text-muted);">'+info.pending.join(', ')+'</div></div>';}
+  if(info.absent.length){attendHTML+='<div style="margin-top:10px;"><div style="font-family:\'Barlow Condensed\',sans-serif;font-weight:700;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#c0392b;margin-bottom:6px;">\u274c Not Attending</div><div class="team-players" style="color:var(--text-muted);">'+info.absent.join(', ')+'</div></div>';}
+  if(info.note){attendHTML+='<div style="margin-top:8px;font-size:12px;color:var(--text-muted);font-style:italic;">'+info.note+'</div>';}
+
+  // Team header
+  const isU7=(team.ageFilter==='Under 7');
+  const teamTitle=isU7?'<span class="age-label">'+team.label+'</span><span class="age-chip" style="background:#e8f5ed;color:var(--green);border-color:rgba(26,107,58,0.3);">U5/6 & U7 Combined</span>':
+    '<span class="age-label">'+team.label+'</span><span class="age-chip">'+team.age+'</span>';
+  const coachLine=isU7?'<div class="team-coach">Coaches: <span>Sarah, Steff &amp; Daniel</span></div>':
+    '<div class="team-coach">Coach: <span>'+info.coach+'</span></div>';
+
+  // Fixtures
   const matches=fixtures.filter(f=>(f.t1===team.name||f.t2===team.name)&&(team.ageFilter===null||f.age===team.ageFilter));
-  const cards=matches.map(m=>{
+  const sorted=[...matches].sort((a,b)=>a.kick-b.kick);
+
+  // Game summary bar with gaps
+  let gapHTML='';
+  if(sorted.length>0){
+    let parts='<span style="font-family:\'Barlow Condensed\',sans-serif;font-weight:700;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--text-muted);margin-right:6px;">'+sorted.length+' Game'+(sorted.length>1?'s':'')+'</span><span style="color:var(--grey-light);margin-right:6px;">|</span>';
+    sorted.forEach((m,i)=>{
+      const t=excelToTime(m.kick);
+      parts+='<span style="font-family:\'Barlow Condensed\',sans-serif;font-size:12px;font-weight:700;color:var(--green);">'+t.str+t.ampm+'</span>';
+      if(i<sorted.length-1){
+        const dur=m.duration.match(/\d+\s*x\s*(\d+)/);
+        const gl=dur?parseInt(dur[1])*2:20;
+        const endM=Math.round(m.kick*24*60)+gl;
+        const nextM=Math.round(sorted[i+1].kick*24*60);
+        const gap=nextM-endM;
+        parts+='<span style="color:var(--text-muted);margin:0 4px;font-size:11px;">+'+gap+'min</span>';
+      }
+    });
+    gapHTML='<div style="background:var(--green-pale);border:1px solid rgba(26,107,58,0.15);border-radius:8px;padding:8px 12px;margin-bottom:12px;display:flex;align-items:center;flex-wrap:wrap;gap:2px;">'+parts+'</div>';
+  }
+
+  // Live countdown
+  let countdownHTML='';
+  const galaDate='2026-05-23';
+  const now=new Date();
+  const nextMatch=sorted.find(m=>{
+    const sm=Math.round(m.kick*24*60);
+    const hh=Math.floor(sm/60);
+    const mm=sm%60;
+    const gd=new Date(galaDate+'T'+String(hh).padStart(2,'0')+':'+String(mm).padStart(2,'0')+':00+10:00');
+    return gd>now;
+  });
+  if(nextMatch){
+    const sm=Math.round(nextMatch.kick*24*60);
+    const hh=Math.floor(sm/60);
+    const mm=sm%60;
+    const gameDate=new Date(galaDate+'T'+String(hh).padStart(2,'0')+':'+String(mm).padStart(2,'0')+':00+10:00');
+    const cdId='cd-'+Math.random().toString(36).substr(2,5);
+    countdownHTML='<div style="background:white;border:1px solid var(--grey);border-radius:8px;padding:8px 12px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;"><span style="font-family:\'Barlow Condensed\',sans-serif;font-weight:700;font-size:12px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;">\u23f1 Next Game</span><span id="'+cdId+'" style="font-family:\'Barlow Condensed\',sans-serif;font-weight:800;font-size:16px;color:var(--green);"></span></div>';
+    const tick=()=>{
+      const el=document.getElementById(cdId);
+      if(!el)return;
+      const diff=gameDate-new Date();
+      if(diff<=0){el.textContent='NOW! \u{1F7E2}';return;}
+      const h=Math.floor(diff/3600000);
+      const m=Math.floor((diff%3600000)/60000);
+      const s=Math.floor((diff%60000)/1000);
+      el.textContent=h>0?h+'h '+m+'m':m+'m '+s+'s';
+      setTimeout(tick,1000);
+    };
+    setTimeout(tick,100);
+  } else if(sorted.length>0){
+    countdownHTML='<div style="background:white;border:1px solid var(--grey);border-radius:8px;padding:8px 12px;margin-bottom:12px;text-align:center;font-family:\'Barlow Condensed\',sans-serif;font-weight:700;font-size:12px;color:var(--text-muted);">All games complete \u2705</div>';
+  }
+
+  // Match cards
+  const cards=sorted.map(m=>{
     const t=excelToTime(m.kick);
     const pitchNum=m.pitch.split(' ')[1];
-    return`<div class="match-card highlight"><div class="match-time">${t.str}<span class="match-time-ampm">${t.ampm}</span><span style="font-size:9px;color:var(--text-muted);display:block;">${m.duration}</span></div><div class="team team-home${m.t1===team.name?' mb':''}">${m.t1}</div><div class="vs-badge">VS</div><div class="team team-away${m.t2===team.name?' mb':''}">${m.t2}</div><button class="pitch-tag pitch-link" onclick="goToPitch(${pitchNum})">${m.pitch} 📍</button></div>`;
+    return '<div class="match-card highlight"><div class="match-time">'+t.str+'<span class="match-time-ampm">'+t.ampm+'</span><span style="font-size:9px;color:var(--text-muted);display:block;">'+m.duration+'</span></div><div class="team team-home'+(m.t1===team.name?' mb':'')+'">'+m.t1+'</div><div class="vs-badge">VS</div><div class="team team-away'+(m.t2===team.name?' mb':'')+'">'+m.t2+'</div><button class="pitch-tag pitch-link" onclick="goToPitch('+pitchNum+')">'+m.pitch+' \uD83D\uDCCD</button></div>';
   }).join('');
-  const isU7=(team.ageFilter==='Under 7');
-  const teamTitle=isU7?`<span class="age-label">${team.label}</span><span class="age-chip" style="background:#e8f5ed;color:var(--green);border-color:rgba(26,107,58,0.3);">U5/6 & U7 Combined</span>`:
-    `<span class="age-label">${team.label}</span><span class="age-chip">${team.age}</span>`;
-  const coachLine=isU7?'<div class="team-coach">Coaches: <span>Sarah, Steff &amp; Daniel</span></div>':
-    `<div class="team-coach">Coach: <span>${info.coach}</span></div>`;
-  mbArea.innerHTML=`<div class="team-info" style="margin-bottom:16px;"><div class="age-group-header" style="margin-bottom:8px;">${teamTitle}<div class="age-line"></div></div>${coachLine}${attendHTML}</div><div class="mb-team-title" style="margin-bottom:10px;">Fixtures <span class="age-chip" style="font-size:11px;">Tap pitch for map</span></div><div class="matches-grid">${cards.length?cards:'<div style="color:var(--text-muted);font-size:13px;padding:10px;">No fixtures found</div>'}</div>`;
+
+  mbArea.innerHTML='<div class="team-info" style="margin-bottom:16px;"><div class="age-group-header" style="margin-bottom:8px;">'+teamTitle+'<div class="age-line"></div></div>'+coachLine+attendHTML+'</div>'+gapHTML+countdownHTML+'<div class="mb-team-title" style="margin-bottom:10px;">Fixtures <span class="age-chip" style="font-size:11px;">Tap pitch for map</span></div><div class="matches-grid">'+(cards.length?cards:'<div style="color:var(--text-muted);font-size:13px;padding:10px;">No fixtures found</div>')+'</div>';
   setTimeout(()=>mbArea.scrollIntoView({behavior:'smooth',block:'nearest'}),50);
 }
 
-// PITCH MAP
 function showPitchMatches(pitchNum){
   const pitchName='Pitch '+pitchNum;
   const matches=fixtures.filter(f=>f.pitch===pitchName);
