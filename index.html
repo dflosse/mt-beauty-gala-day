@@ -530,7 +530,6 @@ footer { text-align: center; padding: 14px; color: var(--text-muted); font-size:
 <div id="page-photos" class="page">
   <div style="position:fixed;top:0;left:0;width:100%;height:100%;background:#000;z-index:999;">
     <iframe id="photo-iframe" style="width:100%;height:100%;border:none;" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-    <div id="unmute-btn" onclick="unmuteVideo()" style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:1000;cursor:default;background:transparent;"></div>
   </div>
 </div>
 
@@ -603,7 +602,7 @@ function showPage(name,btn){
   if(btn)btn.classList.add('active');
   window.scrollTo({top:0,behavior:'smooth'});
   if(name==='results'){buildArchivedDraw('archived-draw-gala1',false);}
-  if(name==='photos'){document.getElementById('photo-iframe').src='https://player.cloudinary.com/embed/?cloud_name=dbffizo5x&public_id=rickroll_as9ozi&autoplay=true&muted=false&controls=false';document.getElementById('unmute-btn').style.display='none';}
+  if(name==='photos'){document.getElementById('photo-iframe').src='https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ?autoplay=1&mute=0&rel=0&modestbranding=1&playsinline=1&enablejsapi=1';}
   else{const iframe=document.getElementById('photo-iframe');if(iframe)iframe.src='';}
 }
 function navTo(name){let btn=null;document.querySelectorAll('.nav-btn').forEach(b=>{const oc=b.getAttribute('onclick')||'';if(oc.includes("'"+name+"'"))btn=b;});if(btn)showPage(name,btn);}
