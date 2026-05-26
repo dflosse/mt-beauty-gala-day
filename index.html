@@ -238,15 +238,14 @@ footer { text-align: center; padding: 14px; color: var(--text-muted); font-size:
 
   <!-- RAIN RADAR -->
   <div class="home-section">
-    <div class="home-section-title">🌧 Rain Radar — NE Victoria</div>
-    <div style="background:white;border-radius:12px;border:1px solid var(--grey);overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+    <div class="home-section-title">🌧 Live Rain Radar — Mt Beauty</div>
+    <div style="border-radius:12px;overflow:hidden;border:1px solid var(--grey);box-shadow:0 2px 8px rgba(0,0,0,0.05);">
       <iframe 
-        src="https://www.bom.gov.au/products/IDR65.loop.shtml"
-        style="width:100%;height:420px;border:none;"
-        scrolling="no"
-        title="BOM Rain Radar NE Victoria">
+        src="https://embed.windy.com/embed.html?type=map&location=coordinates&metricRain=mm&metricTemp=°C&metricWind=km/h&zoom=7&overlay=rain&product=ecmwf&level=surface&lat=-36.741&lon=147.175&detailLat=-36.741&detailLon=147.175&detail=true&pressure=true&message=true"
+        style="width:100%;height:350px;border:none;"
+        frameborder="0">
       </iframe>
-      <div style="padding:8px 12px;text-align:center;font-size:11px;color:var(--text-muted);">Live radar via Bureau of Meteorology · <a href="https://www.bom.gov.au/products/IDR65.loop.shtml" target="_blank" style="color:var(--green);">Open full screen</a></div>
+      <div style="background:white;padding:6px 12px;text-align:right;font-size:11px;color:var(--text-muted);">via Windy.com</div>
     </div>
   </div>
 
@@ -501,6 +500,7 @@ footer { text-align: center; padding: 14px; color: var(--text-muted); font-size:
 </div>
 </div>
 <script>
+
 const fixtures=[];
 const GALAS=[
   {date:'2026-05-17',host:'Mount Beauty',done:true},
@@ -628,6 +628,8 @@ async function loadWeather(){
     }catch(e){galaEl.innerHTML='<div class="weather-error">Weather unavailable</div>';}
   }else{galaEl.innerHTML='<div class="weather-desc">Season complete!</div>';}
 }
+
+
 
 loadWeather();
 </script>
