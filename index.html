@@ -398,6 +398,41 @@ footer { text-align: center; padding: 14px; color: var(--text-muted); font-size:
 <div class="content">
   <div class="results-intro">Past Galas — 2026 Junior Gala Day Series</div>
 
+  <!-- SEASON AT A GLANCE -->
+  <div style="background:white;border:1px solid var(--grey);border-radius:12px;padding:16px;margin-bottom:16px;box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+    <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:16px;text-transform:uppercase;letter-spacing:1px;margin-bottom:2px;">📊 Season at a Glance</div>
+    <div style="font-size:11px;color:var(--text-muted);margin-bottom:14px;">Mt Beauty results across all galas · 56 games · 23 wins, 14 draws, 20 losses</div>
+
+    <!-- W/D/L stacked bars per gala -->
+    <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:18px;">
+      <div>
+        <div style="display:flex;justify-content:space-between;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px;"><span>Gala 1 · Mt Beauty</span><span>19 games</span></div>
+        <div style="display:flex;height:22px;border-radius:6px;overflow:hidden;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:11px;color:white;">
+          <div style="flex:9;background:var(--green);display:flex;align-items:center;justify-content:center;">9W</div>
+          <div style="flex:4;background:#d4a017;display:flex;align-items:center;justify-content:center;">4D</div>
+          <div style="flex:6;background:#c0392b;display:flex;align-items:center;justify-content:center;">6L</div>
+        </div>
+      </div>
+      <div>
+        <div style="display:flex;justify-content:space-between;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px;"><span>Gala 2 · Myrtleford</span><span>18 games</span></div>
+        <div style="display:flex;height:22px;border-radius:6px;overflow:hidden;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:11px;color:white;">
+          <div style="flex:4;background:var(--green);display:flex;align-items:center;justify-content:center;">4W</div>
+          <div style="flex:3;background:#d4a017;display:flex;align-items:center;justify-content:center;">3D</div>
+          <div style="flex:11;background:#c0392b;display:flex;align-items:center;justify-content:center;">11L</div>
+        </div>
+      </div>
+      <div>
+        <div style="display:flex;justify-content:space-between;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px;"><span>Gala 3 · Mt Beauty</span><span>20 games</span></div>
+        <div style="display:flex;height:22px;border-radius:6px;overflow:hidden;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:11px;color:white;">
+          <div style="flex:10;background:var(--green);display:flex;align-items:center;justify-content:center;">10W</div>
+          <div style="flex:7;background:#d4a017;display:flex;align-items:center;justify-content:center;">7D</div>
+          <div style="flex:3;background:#c0392b;display:flex;align-items:center;justify-content:center;">3L</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
   <!-- GALA 1 ACCORDION -->
   <div style="margin-bottom:12px;">
     <button onclick="toggleDropdown('gala1-body',this)" style="width:100%;display:flex;align-items:center;justify-content:space-between;padding:14px 16px;background:var(--green-pale);border:1px solid rgba(26,107,58,0.2);border-radius:10px;cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;letter-spacing:1px;text-transform:uppercase;color:var(--green);-webkit-appearance:none;">
