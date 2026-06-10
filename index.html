@@ -213,7 +213,7 @@ footer { text-align: center; padding: 14px; color: var(--text-muted); font-size:
       <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px;">
         <li style="display:flex;gap:10px;align-items:flex-start;font-size:13px;color:var(--text);line-height:1.5;padding-bottom:10px;border-bottom:1px solid var(--grey-light);">
           <span style="font-size:16px;flex-shrink:0;">🌧️</span>
-          <span><strong>Inclement weather coming this week</strong> — may affect training Tuesday and Wednesday nights.</span>
+          <span><strong>Inclement weather this week</strong> — Tuesday and Wednesday training is <strong>going ahead</strong>. Rug up and bring a rain jacket!</span>
         </li>
         <li style="display:flex;gap:10px;align-items:flex-start;font-size:13px;color:var(--text);line-height:1.5;">
           <span style="font-size:16px;flex-shrink:0;">❄️</span>
@@ -284,11 +284,37 @@ footer { text-align: center; padding: 14px; color: var(--text-muted); font-size:
   <div class="home-section">
     <div class="home-section-title">☕ Food &amp; Coffee — Yackandandah</div>
     <div style="background:white;border-radius:12px;border:1px solid var(--grey);overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.05);">
-      <div style="text-align:center;padding:32px 20px;">
-        <div style="font-size:34px;margin-bottom:10px;">🍔☕</div>
-        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:18px;color:var(--text-muted);text-transform:uppercase;margin-bottom:6px;">Food &amp; Coffee — Coming Soon</div>
-        <div style="font-size:13px;color:var(--text-muted);line-height:1.5;">Yackandandah food and coffee options will be listed here closer to Gala 4.</div>
-      </div>
+
+      <a href="https://maps.google.com/?q=Gum+Tree+Pies+Yackandandah" target="_blank" style="display:flex;align-items:center;gap:12px;padding:13px 16px;border-bottom:1px solid var(--grey-light);text-decoration:none;color:var(--text);">
+        <span style="font-size:22px;">🥧</span>
+        <div style="flex:1;"><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:15px;">Gum Tree Pies</div><div style="font-size:12px;color:var(--text-muted);">High St · Award-winning pies, cakes &amp; coffee</div></div>
+        <span style="color:var(--text-muted);font-size:16px;">›</span>
+      </a>
+
+      <a href="https://maps.google.com/?q=Beechworth+Bakery+Yackandandah" target="_blank" style="display:flex;align-items:center;gap:12px;padding:13px 16px;border-bottom:1px solid var(--grey-light);text-decoration:none;color:var(--text);">
+        <span style="font-size:22px;">🥐</span>
+        <div style="flex:1;"><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:15px;">Beechworth Bakery Yackandandah</div><div style="font-size:12px;color:var(--text-muted);">High St · Pies, pastries, cakes &amp; coffee</div></div>
+        <span style="color:var(--text-muted);font-size:16px;">›</span>
+      </a>
+
+      <a href="https://maps.google.com/?q=Two+Sisters+on+High+Yackandandah" target="_blank" style="display:flex;align-items:center;gap:12px;padding:13px 16px;border-bottom:1px solid var(--grey-light);text-decoration:none;color:var(--text);">
+        <span style="font-size:22px;">☕</span>
+        <div style="flex:1;"><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:15px;">Two Sisters on High</div><div style="font-size:12px;color:var(--text-muted);">High St · Specialty coffee &amp; house-baked food</div></div>
+        <span style="color:var(--text-muted);font-size:16px;">›</span>
+      </a>
+
+      <a href="https://maps.google.com/?q=Laneway+Cafe+Star+Hotel+Yackandandah" target="_blank" style="display:flex;align-items:center;gap:12px;padding:13px 16px;border-bottom:1px solid var(--grey-light);text-decoration:none;color:var(--text);">
+        <span style="font-size:22px;">🍳</span>
+        <div style="flex:1;"><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:15px;">Laneway Cafe @ The Star Hotel</div><div style="font-size:12px;color:var(--text-muted);">High St · Breakfast &amp; quick bites, great coffee</div></div>
+        <span style="color:var(--text-muted);font-size:16px;">›</span>
+      </a>
+
+      <a href="https://maps.google.com/?q=Yackandandah+Hotel" target="_blank" style="display:flex;align-items:center;gap:12px;padding:13px 16px;text-decoration:none;color:var(--text);">
+        <span style="font-size:22px;">🍺</span>
+        <div style="flex:1;"><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:15px;">Yack Hotel</div><div style="font-size:12px;color:var(--text-muted);">High St · Historic country pub · Post-gala!</div></div>
+        <span style="color:var(--text-muted);font-size:16px;">›</span>
+      </a>
+
     </div>
   </div>
 
@@ -624,11 +650,11 @@ const drawInner=document.getElementById('draw-content-inner');
 if(drawInner){if(!fixtures.length){drawInner.innerHTML='<div style="text-align:center;padding:40px 20px;background:white;border-radius:12px;border:2px dashed var(--grey);"><div style="font-size:40px;margin-bottom:10px;">📋</div><div style="font-family:\'Barlow Condensed\',sans-serif;font-weight:800;font-size:20px;color:var(--text-muted);text-transform:uppercase;margin-bottom:6px;">Fixture Coming Soon</div><div style="font-size:13px;color:var(--text-muted);">The Gala 4 draw will be published here once released — updated each Wednesday.</div></div>';}else{ageOrder.forEach(age=>{if(!groups[age])return;const g=groups[age];const sec=document.createElement('div');sec.className='age-group';sec.dataset.age=age;const cards=g.matches.map(m=>{const t=excelToTime(m.kick);const mb1=m.t1.includes('Mt Beauty');const mb2=m.t2.includes('Mt Beauty');return '<div class="match-card"><div class="match-time">'+t.str+'<span class="match-time-ampm">'+t.ampm+'</span></div><div class="team team-home'+(mb1?' mb':'')+'">'+m.t1+'</div><div class="vs-badge">VS</div><div class="team team-away'+(mb2?' mb':'')+'">'+m.t2+'</div><button class="pitch-tag pitch-link" onclick="goToPitch('+m.pitch.split(' ')[1]+')">'+m.pitch+' \uD83D\uDCCD</button></div>';}).join('');sec.innerHTML='<div class="age-group-header"><span class="age-label">'+age+'</span><span class="duration-badge">'+g.duration+'</span><div class="age-line"></div></div><div class="matches-grid">'+cards+'</div>';drawInner.appendChild(sec);});}}
 
 const mbTeams=[
-  {name:'Mt Beauty SC Red',label:'Red',age:'Under 7',ageFilter:'Under 7',info:{coach:'Steff & Daniel',note:'3 mixed U5/6 & U7 teams — squad split on the day',confirmed:[],pending:['Elsie F','Fletcher','Arlo','Felix','Chester','Leo','Harper','Reuben H','Louis','Oscar','Alfie','Frankie','Millicent','Henry','Sierra','Luca'],absent:[]}},
-  {name:'Mt Beauty SC Green',label:'Green',age:'Under 7',ageFilter:'Under 7',info:{coach:'Steff & Daniel',note:'3 mixed U5/6 & U7 teams — squad split on the day',confirmed:[],pending:['Elsie F','Fletcher','Arlo','Felix','Chester','Leo','Harper','Reuben H','Louis','Oscar','Alfie','Frankie','Millicent','Henry','Sierra','Luca'],absent:[]}},
-  {name:'Mt Beauty SC Blue',label:'Blue',age:'Under 7',ageFilter:'Under 7',info:{coach:'Sarah',note:'3 mixed U5/6 & U7 teams — squad split on the day',confirmed:[],pending:['Elsie F','Fletcher','Arlo','Felix','Chester','Leo','Harper','Reuben H','Louis','Oscar','Alfie','Frankie','Millicent','Henry','Sierra','Luca'],absent:[]}},
-  {name:'Mt Beauty SC Red',label:'U9 Red',age:'Under 9',ageFilter:'Under 9',info:{coach:'Rachelle',note:'',confirmed:[],pending:['Banjo','Orion','Reuben','George','Travis','Sofia','Clover','Summer','Gene','Jaidyn','Gus'],absent:[]}},
-  {name:'Mt Beauty SC Green',label:'U9 Green',age:'Under 9',ageFilter:'Under 9',info:{coach:'Erik',note:'',confirmed:[],pending:['Finn','Charlie','James','Hendrix','Matilda','Channing','Evie','Hughie','Harrison','Drift','Fletcher'],absent:[]}},
+  {name:'Mt Beauty SC Red',label:'Red',age:'Under 7',ageFilter:'Under 7',info:{coach:'Steff & Daniel',note:'3 mixed U5/6 & U7 teams — squad split on the day',confirmed:[],pending:['Fletcher','Arlo','Felix','Chester','Leo','Harper','Reuben H','Louis','Oscar','Alfie','Frankie','Millicent','Henry','Sierra','Luca'],absent:['Elsie F']}},
+  {name:'Mt Beauty SC Green',label:'Green',age:'Under 7',ageFilter:'Under 7',info:{coach:'Steff & Daniel',note:'3 mixed U5/6 & U7 teams — squad split on the day',confirmed:[],pending:['Fletcher','Arlo','Felix','Chester','Leo','Harper','Reuben H','Louis','Oscar','Alfie','Frankie','Millicent','Henry','Sierra','Luca'],absent:['Elsie F']}},
+  {name:'Mt Beauty SC Blue',label:'Blue',age:'Under 7',ageFilter:'Under 7',info:{coach:'Sarah',note:'3 mixed U5/6 & U7 teams — squad split on the day',confirmed:[],pending:['Fletcher','Arlo','Felix','Chester','Leo','Harper','Reuben H','Louis','Oscar','Alfie','Frankie','Millicent','Henry','Sierra','Luca'],absent:['Elsie F']}},
+  {name:'Mt Beauty SC Red',label:'U9 Red',age:'Under 9',ageFilter:'Under 9',info:{coach:'Rachelle',note:'',confirmed:[],pending:['Banjo','Reuben','George','Travis','Clover','Summer','Gene','Jaidyn','Gus'],absent:['Orion','Sofia']}},
+  {name:'Mt Beauty SC Green',label:'U9 Green',age:'Under 9',ageFilter:'Under 9',info:{coach:'Erik',note:'',confirmed:[],pending:['Finn','Charlie','James','Hendrix','Matilda','Channing','Evie','Hughie','Harrison','Drift'],absent:['Fletcher']}},
   {name:'Mt Beauty SC Red',label:'U11 Red',age:'Under 10/11',ageFilter:'Under 10/11',info:{coach:'Rob',note:'',confirmed:[],pending:['Lawson','Goldie','Lolly (Lollita)','Cooper','Max','Craig (CJ)','Skye','Sam','Hugo','Jarrah','Oliver','Zaine'],absent:[]}},
   {name:'Mt Beauty SC Green',label:'U11 Green',age:'Under 10/11',ageFilter:'Under 10/11',info:{coach:'Dave',note:'',confirmed:[],pending:['Luca','Miranda','Archie','Christian','Niels','Thelma','Erin','Kit','Loki','Hamish'],absent:[]}},
   {name:'Mt Beauty SC',label:'U13',age:'Under 12/13',ageFilter:null,info:{coach:'Sian',note:'',confirmed:[],pending:['Xander','Arthur','Peter','Andie','Chevi','Sebastian','Scarlette','Sophie','Luella','Eloise','Griffin'],absent:[]}},
