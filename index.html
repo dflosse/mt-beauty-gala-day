@@ -153,6 +153,7 @@ header h1 span { color: var(--gold); }
 .result-card.win { border-left: 4px solid #2a8a4e; }
 .result-card.loss { border-left: 4px solid #c0392b; }
 .result-card.draw { border-left: 4px solid var(--gold); }
+.result-card.pending { border-left: 4px solid var(--grey); opacity: 0.72; }
 .result-teams { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
 .result-team { font-weight: 700; font-size: 13px; flex: 1; }
 .result-team.mb { color: var(--mb-blue); }
@@ -163,6 +164,7 @@ header h1 span { color: var(--gold); }
 .result-outcome.win { background: #e8f5ed; color: #1a6b3a; }
 .result-outcome.draw { background: #fff8e1; color: #a07000; }
 .result-outcome.loss { background: #fdf0f0; color: #c0392b; }
+.result-outcome.pending { background: var(--grey-light); color: var(--text-muted); }
 .special-moment { background: #fff8e1; border: 1px solid var(--gold); border-radius: 8px; padding: 10px 12px; margin-top: 6px; font-size: 12px; color: #7a5a00; }
 
 /* PHOTOS */
@@ -206,54 +208,6 @@ footer { text-align: center; padding: 14px; color: var(--text-muted); font-size:
 <div id="page-home" class="page active">
 <div class="content">
 
-  <div class="home-section">
-    <div class="home-section-title">🔴 Gala 4 — Live Results</div>
-    <div style="background:white;border:1px solid var(--grey);border-radius:12px;padding:6px 4px;box-shadow:0 2px 8px rgba(0,0,0,0.05);">
-      <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid var(--grey-light);">
-        <span style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--green);background:var(--green-pale);padding:2px 7px;border-radius:5px;flex-shrink:0;">U7 Red</span>
-        <span style="flex:1;font-size:13px;"><strong>Mt Beauty</strong> v Bright Black</span>
-        <span style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:15px;color:var(--green);flex-shrink:0;">3 — 2 ✓</span>
-      </div>
-      <div style="font-size:11px;color:var(--text-muted);padding:2px 12px 8px 12px;border-bottom:1px solid var(--grey-light);">⚽ Luca, Louis, Teddy</div>
-
-      <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid var(--grey-light);">
-        <span style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--green);background:var(--green-pale);padding:2px 7px;border-radius:5px;flex-shrink:0;">U7 Green</span>
-        <span style="flex:1;font-size:13px;"><strong>Mt Beauty</strong> v Myrtleford</span>
-        <span style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:15px;color:#c0392b;flex-shrink:0;">0 — 7</span>
-      </div>
-      <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;">
-        <span style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--green);background:var(--green-pale);padding:2px 7px;border-radius:5px;flex-shrink:0;">U7 Green</span>
-        <span style="flex:1;font-size:13px;"><strong>Mt Beauty</strong> v Myrtleford</span>
-        <span style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:15px;color:var(--green);flex-shrink:0;">7 — 6 ✓</span>
-      </div>
-      <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-top:1px solid var(--grey-light);">
-        <span style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--green);background:var(--green-pale);padding:2px 7px;border-radius:5px;flex-shrink:0;">U9 Green</span>
-        <span style="flex:1;font-size:13px;"><strong>Mt Beauty</strong> v Bright</span>
-        <span style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:15px;color:var(--green);flex-shrink:0;">2 — 1 ✓</span>
-      </div>
-      <div style="font-size:11px;color:var(--text-muted);padding:2px 12px 8px 12px;border-bottom:1px solid var(--grey-light);">⚽ Finn, Charlie</div>
-
-      <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;">
-        <span style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--green);background:var(--green-pale);padding:2px 7px;border-radius:5px;flex-shrink:0;">U11 Green</span>
-        <span style="flex:1;font-size:13px;"><strong>Mt Beauty</strong> v Myrtleford</span>
-        <span style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:15px;color:var(--green);flex-shrink:0;">1 — 0 ✓</span>
-      </div>
-      <div style="font-size:11px;color:var(--text-muted);padding:2px 12px 8px 12px;">⚽ Kit</div>
-
-      <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-top:1px solid var(--grey-light);">
-        <span style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--green);background:var(--green-pale);padding:2px 7px;border-radius:5px;flex-shrink:0;">U7 Red</span>
-        <span style="flex:1;font-size:13px;"><strong>Mt Beauty</strong> v Myrtleford White</span>
-        <span style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:15px;color:#c0392b;flex-shrink:0;">0 — 2</span>
-      </div>
-      <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-top:1px solid var(--grey-light);">
-        <span style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--green);background:var(--green-pale);padding:2px 7px;border-radius:5px;flex-shrink:0;">U7 Blue</span>
-        <span style="flex:1;font-size:13px;"><strong>Mt Beauty</strong> v Yackandandah</span>
-        <span style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:15px;color:var(--green);flex-shrink:0;">2 — 0 ✓</span>
-      </div>
-      <div style="font-size:11px;color:var(--text-muted);padding:2px 12px 8px 12px;">⚽ Ollie, Lenox</div>
-    </div>
-    <div style="font-size:10px;color:var(--text-muted);margin-top:6px;font-style:italic;">Updated live from the sideline · more results as they come in</div>
-  </div>
 
   <div class="home-section">
     <div class="home-section-title">Season Schedule</div>
@@ -261,8 +215,8 @@ footer { text-align: center; padding: 14px; color: var(--text-muted); font-size:
       <div class="schedule-row done"><span class="schedule-date">Sun 17 May</span><span class="schedule-host">Mount Beauty SC</span><span class="season-badge done">✓ Done</span></div>
       <div class="schedule-row done"><span class="schedule-date">Sat 23 May</span><span class="schedule-host">Myrtleford SC</span><span class="season-badge done">✓ Done</span></div>
       <div class="schedule-row done"><span class="schedule-date">Sun 31 May</span><span class="schedule-host">Mount Beauty SC</span><span class="season-badge done">✓ Done</span></div>
-      <div class="schedule-row next"><span class="schedule-date">Sun 14 Jun</span><span class="schedule-host">Yackandandah SC</span><span class="season-badge next">Next</span></div>
-      <div class="schedule-row"><span class="schedule-date">Sat 27 Jun</span><span class="schedule-host">Bright SC</span><span class="season-badge upcoming">Upcoming</span></div>
+      <div class="schedule-row done"><span class="schedule-date">Sun 14 Jun</span><span class="schedule-host">Yackandandah SC</span><span class="season-badge done">✓ Done</span></div>
+      <div class="schedule-row next"><span class="schedule-date">Sat 27 Jun</span><span class="schedule-host">Bright SC</span><span class="season-badge next">Next</span></div>
     </div>
   </div>
 
@@ -295,7 +249,7 @@ footer { text-align: center; padding: 14px; color: var(--text-muted); font-size:
   <!-- SEASON AT A GLANCE -->
   <div style="background:white;border:1px solid var(--grey);border-radius:12px;padding:16px;margin-bottom:20px;box-shadow:0 2px 8px rgba(0,0,0,0.05);">
     <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:16px;text-transform:uppercase;letter-spacing:1px;margin-bottom:2px;">📊 Season at a Glance</div>
-    <div style="font-size:11px;color:var(--text-muted);margin-bottom:14px;">Mt Beauty results across all galas · 56 games · 23 wins, 14 draws, 20 losses</div>
+    <div style="font-size:11px;color:var(--text-muted);margin-bottom:14px;">Mt Beauty results across all galas · 69 games · 31 wins, 16 draws, 23 losses</div>
 
     <!-- W/D/L stacked bars per gala -->
     <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:18px;">
@@ -320,6 +274,14 @@ footer { text-align: center; padding: 14px; color: var(--text-muted); font-size:
         <div style="display:flex;height:22px;border-radius:6px;overflow:hidden;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:11px;color:white;">
           <div style="flex:10;background:var(--green);display:flex;align-items:center;justify-content:center;">10W</div>
           <div style="flex:7;background:#d4a017;display:flex;align-items:center;justify-content:center;">7D</div>
+          <div style="flex:3;background:#c0392b;display:flex;align-items:center;justify-content:center;">3L</div>
+        </div>
+      </div>
+      <div>
+        <div style="display:flex;justify-content:space-between;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px;"><span>Gala 4 · Yackandandah</span><span>13 games</span></div>
+        <div style="display:flex;height:22px;border-radius:6px;overflow:hidden;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:11px;color:white;">
+          <div style="flex:8;background:var(--green);display:flex;align-items:center;justify-content:center;">8W</div>
+          <div style="flex:2;background:#d4a017;display:flex;align-items:center;justify-content:center;">2D</div>
           <div style="flex:3;background:#c0392b;display:flex;align-items:center;justify-content:center;">3L</div>
         </div>
       </div>
@@ -499,7 +461,7 @@ footer { text-align: center; padding: 14px; color: var(--text-muted); font-size:
   <!-- SEASON AT A GLANCE -->
   <div style="background:white;border:1px solid var(--grey);border-radius:12px;padding:16px;margin-bottom:16px;box-shadow:0 2px 8px rgba(0,0,0,0.05);">
     <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:16px;text-transform:uppercase;letter-spacing:1px;margin-bottom:2px;">📊 Season at a Glance</div>
-    <div style="font-size:11px;color:var(--text-muted);margin-bottom:14px;">Mt Beauty results across all galas · 56 games · 23 wins, 14 draws, 20 losses</div>
+    <div style="font-size:11px;color:var(--text-muted);margin-bottom:14px;">Mt Beauty results across all galas · 69 games · 31 wins, 16 draws, 23 losses</div>
 
     <!-- W/D/L stacked bars per gala -->
     <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:18px;">
@@ -527,8 +489,78 @@ footer { text-align: center; padding: 14px; color: var(--text-muted); font-size:
           <div style="flex:3;background:#c0392b;display:flex;align-items:center;justify-content:center;">3L</div>
         </div>
       </div>
+      <div>
+        <div style="display:flex;justify-content:space-between;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px;"><span>Gala 4 · Yackandandah</span><span>13 games</span></div>
+        <div style="display:flex;height:22px;border-radius:6px;overflow:hidden;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:11px;color:white;">
+          <div style="flex:8;background:var(--green);display:flex;align-items:center;justify-content:center;">8W</div>
+          <div style="flex:2;background:#d4a017;display:flex;align-items:center;justify-content:center;">2D</div>
+          <div style="flex:3;background:#c0392b;display:flex;align-items:center;justify-content:center;">3L</div>
+        </div>
+      </div>
     </div>
 
+  </div>
+
+  <!-- GALA 4 ACCORDION -->
+  <div style="margin-bottom:12px;">
+    <button onclick="toggleDropdown('gala4-body',this)" style="width:100%;display:flex;align-items:center;justify-content:space-between;padding:14px 16px;background:var(--green-pale);border:1px solid rgba(26,107,58,0.2);border-radius:10px;cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;letter-spacing:1px;text-transform:uppercase;color:var(--green);-webkit-appearance:none;">
+      <span>Gala 4 — Yackandandah · 14 June</span>
+      <span style="display:flex;align-items:center;gap:8px;"><span style="font-size:12px;letter-spacing:0.5px;"><span style="color:var(--green);font-weight:800;">8W</span> <span style="color:#b8860b;font-weight:800;">2D</span> <span style="color:#c0392b;font-weight:800;">3L</span></span><span id="gala4-body-chevron" style="transition:transform 0.2s;">▼</span></span>
+    </button>
+    <div id="gala4-body" style="display:none;padding:12px 0 4px;">
+  <div id="gala4" class="gala-section" style="margin-top:20px;">
+    <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:16px;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">Gala 4 — Yackandandah Sports Park</div>
+    <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);margin-bottom:16px;">14 June 2026 · Yackandandah</div>
+    <div style="font-size:11px;color:var(--text-muted);margin-bottom:16px;margin-top:-10px;">Record reflects completed games · some results still to be confirmed</div>
+
+    <div class="result-group">
+      <div class="result-group-header"><span class="result-age-label">Under 7 — Red</span><div class="age-line"></div></div>
+      <div class="result-card win"><div class="result-teams"><div class="result-team mb">Mt Beauty</div><div class="result-score">3 — 2</div><div class="result-team" style="text-align:right">Bright Black</div></div><span class="result-outcome win">Win</span><div class="result-scorers" style="opacity:.6;">⚽ Goals: <span>Scorers TBC</span></div></div>
+      <div class="result-card loss"><div class="result-teams"><div class="result-team mb">Mt Beauty</div><div class="result-score">0 — 2</div><div class="result-team" style="text-align:right">Myrtleford White</div></div><span class="result-outcome loss">Loss</span></div>
+      <div class="result-card draw"><div class="result-teams"><div class="result-team mb">Mt Beauty</div><div class="result-score">3 — 3</div><div class="result-team" style="text-align:right">Bright White</div></div><span class="result-outcome draw">Draw</span><div class="result-scorers">⚽ Goals: <span>Teddy, Millie, Louis</span></div></div>
+    </div>
+    <div class="result-group">
+      <div class="result-group-header"><span class="result-age-label">Under 7 — Green</span><div class="age-line"></div></div>
+      <div class="result-card loss"><div class="result-teams"><div class="result-team mb">Mt Beauty</div><div class="result-score">0 — 7</div><div class="result-team" style="text-align:right">Myrtleford White</div></div><span class="result-outcome loss">Loss</span></div>
+      <div class="result-card win"><div class="result-teams"><div class="result-team mb">Mt Beauty</div><div class="result-score">7 — 6</div><div class="result-team" style="text-align:right">Myrtleford White</div></div><span class="result-outcome win">Win</span><div class="result-scorers" style="opacity:.6;">⚽ Goals: <span>Scorers TBC</span></div></div>
+      <div class="result-card win"><div class="result-teams"><div class="result-team mb">Mt Beauty</div><div class="result-score">3 — 1</div><div class="result-team" style="text-align:right">Bright</div></div><span class="result-outcome win">Win</span><div class="result-scorers" style="opacity:.6;">⚽ Goals: <span>Scorers TBC</span></div></div>
+    </div>
+    <div class="result-group">
+      <div class="result-group-header"><span class="result-age-label">Under 7 — Blue</span><div class="age-line"></div></div>
+      <div class="result-card win"><div class="result-teams"><div class="result-team mb">Mt Beauty</div><div class="result-score">2 — 0</div><div class="result-team" style="text-align:right">Yackandandah</div></div><span class="result-outcome win">Win</span><div class="result-scorers">⚽ Goals: <span>Ollie, Lenox</span></div></div>
+      <div class="result-card loss"><div class="result-teams"><div class="result-team mb">Mt Beauty</div><div class="result-score">0 — 1</div><div class="result-team" style="text-align:right">Bright Red</div></div><span class="result-outcome loss">Loss</span></div>
+      <div class="result-card draw"><div class="result-teams"><div class="result-team mb">Mt Beauty</div><div class="result-score">1 — 1</div><div class="result-team" style="text-align:right">Myrtleford Blue</div></div><span class="result-outcome draw">Draw</span><div class="result-scorers">⚽ Goals: <span>Oscar</span></div></div>
+    </div>
+    <div class="result-group">
+      <div class="result-group-header"><span class="result-age-label">Under 9 — Red</span><div class="age-line"></div></div>
+      <div class="result-card pending"><div class="result-teams"><div class="result-team mb">Mt Beauty</div><div class="result-score">vs</div><div class="result-team" style="text-align:right">Bright White</div></div><span class="result-outcome pending">Result Pending</span></div>
+      <div class="result-card pending"><div class="result-teams"><div class="result-team mb">Mt Beauty</div><div class="result-score">vs</div><div class="result-team" style="text-align:right">Myrtleford Blue</div></div><span class="result-outcome pending">Result Pending</span></div>
+    </div>
+    <div class="result-group">
+      <div class="result-group-header"><span class="result-age-label">Under 9 — Green</span><div class="age-line"></div></div>
+      <div class="result-card win"><div class="result-teams"><div class="result-team mb">Mt Beauty</div><div class="result-score">2 — 1</div><div class="result-team" style="text-align:right">Bright Black</div></div><span class="result-outcome win">Win</span><div class="result-scorers">⚽ Goals: <span>Finn, Charlie</span></div></div>
+      <div class="result-card win"><div class="result-teams"><div class="result-team mb">Mt Beauty</div><div class="result-score">2 — 0</div><div class="result-team" style="text-align:right">Bright Red</div></div><span class="result-outcome win">Win</span><div class="result-scorers">⚽ Goals: <span>Charlie, Hendrix</span></div></div>
+      <div class="result-card win"><div class="result-teams"><div class="result-team mb">Mt Beauty</div><div class="result-score">2 — 1</div><div class="result-team" style="text-align:right">Bright Black</div></div><span class="result-outcome win">Win</span><div class="result-scorers">⚽ Goals: <span>Hendrix x2</span></div></div>
+    </div>
+    <div class="result-group">
+      <div class="result-group-header"><span class="result-age-label">Under 11 — Green</span><div class="age-line"></div></div>
+      <div class="result-card win"><div class="result-teams"><div class="result-team mb">Mt Beauty</div><div class="result-score">1 — 0</div><div class="result-team" style="text-align:right">Myrtleford</div></div><span class="result-outcome win">Win</span><div class="result-scorers">⚽ Goals: <span>Kit</span></div></div>
+      <div class="result-card pending"><div class="result-teams"><div class="result-team mb">Mt Beauty</div><div class="result-score">vs</div><div class="result-team" style="text-align:right">Myrtleford White</div></div><span class="result-outcome pending">Result Pending</span></div>
+    </div>
+    <div class="result-group">
+      <div class="result-group-header"><span class="result-age-label">Under 11 — Red</span><div class="age-line"></div></div>
+      <div class="result-card pending"><div class="result-teams"><div class="result-team mb">Mt Beauty</div><div class="result-score">vs</div><div class="result-team" style="text-align:right">Yackandandah</div></div><span class="result-outcome pending">Result Pending</span></div>
+      <div class="result-card pending"><div class="result-teams"><div class="result-team mb">Mt Beauty</div><div class="result-score">vs</div><div class="result-team" style="text-align:right">Myrtleford White</div></div><span class="result-outcome pending">Result Pending</span></div>
+      <div class="result-card pending"><div class="result-teams"><div class="result-team mb">Mt Beauty</div><div class="result-score">vs</div><div class="result-team" style="text-align:right">Myrtleford Blue</div></div><span class="result-outcome pending">Result Pending</span></div>
+    </div>
+    <div class="result-group">
+      <div class="result-group-header"><span class="result-age-label">Under 13</span><div class="age-line"></div></div>
+      <div class="result-card pending"><div class="result-teams"><div class="result-team mb">Mt Beauty</div><div class="result-score">vs</div><div class="result-team" style="text-align:right">Bright Red</div></div><span class="result-outcome pending">Result Pending</span></div>
+      <div class="result-card pending"><div class="result-teams"><div class="result-team mb">Mt Beauty</div><div class="result-score">vs</div><div class="result-team" style="text-align:right">Bright Black</div></div><span class="result-outcome pending">Result Pending</span></div>
+    </div>
+
+  </div>
+    </div>
   </div>
 
   <!-- GALA 1 ACCORDION -->
@@ -796,7 +828,7 @@ const GALAS=[
   {date:'2026-05-17',host:'Mount Beauty',done:true},
   {date:'2026-05-23',host:'Myrtleford',done:true},
   {date:'2026-05-31',host:'Mount Beauty',done:true},
-  {date:'2026-06-14',host:'Yackandandah',done:false},
+  {date:'2026-06-14',host:'Yackandandah',done:true},
   {date:'2026-06-27',host:'Bright',done:false},
 ];
 const LOCATIONS={'Mount Beauty':'r32xhb','Myrtleford':'r32rfz','Yackandandah':'r383mk','Bright':'r32x07'};
@@ -864,7 +896,7 @@ function showMbTeam(idx){
   let gapHTML='';
   if(sorted.length>0){let parts='<span style="font-family:\'Barlow Condensed\',sans-serif;font-weight:700;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--text-muted);margin-right:6px;">'+sorted.length+' Game'+(sorted.length>1?'s':'')+'</span><span style="color:var(--grey-light);margin-right:6px;">|</span>';sorted.forEach((m,i)=>{const t=excelToTime(m.kick);parts+='<span style="font-family:\'Barlow Condensed\',sans-serif;font-size:12px;font-weight:700;color:var(--green);">'+t.str+t.ampm+'</span>';if(i<sorted.length-1){const dur=m.duration.match(/\d+\s*x\s*(\d+)/);const gl=dur?parseInt(dur[1])*2:20;const endM=Math.round(m.kick*24*60)+gl;const nextM=Math.round(sorted[i+1].kick*24*60);const gap=nextM-endM;parts+='<span style="color:var(--text-muted);margin:0 4px;font-size:11px;">+'+gap+'min</span>';}});gapHTML='<div style="background:var(--green-pale);border:1px solid rgba(26,107,58,0.15);border-radius:8px;padding:8px 12px;margin-bottom:12px;display:flex;align-items:center;flex-wrap:wrap;gap:2px;">'+parts+'</div>';}
   let countdownHTML='';
-  const galaDate='2026-06-14';const now=new Date();
+  const galaDate='2026-06-27';const now=new Date();
   const nextMatch=sorted.find(m=>{const sm=Math.round(m.kick*24*60);const hh=Math.floor(sm/60);const mm=sm%60;const gd=new Date(galaDate+'T'+String(hh).padStart(2,'0')+':'+String(mm).padStart(2,'0')+':00+10:00');return gd>now;});
   if(nextMatch){const sm=Math.round(nextMatch.kick*24*60);const hh=Math.floor(sm/60);const mm=sm%60;const gameDate=new Date(galaDate+'T'+String(hh).padStart(2,'0')+':'+String(mm).padStart(2,'0')+':00+10:00');const cdId='cd-'+Math.random().toString(36).substr(2,5);countdownHTML='<div style="background:white;border:1px solid var(--grey);border-radius:8px;padding:8px 12px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;"><span style="font-family:\'Barlow Condensed\',sans-serif;font-weight:700;font-size:12px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;">\u23f1 Next Game</span><span id="'+cdId+'" style="font-family:\'Barlow Condensed\',sans-serif;font-weight:800;font-size:16px;color:var(--green);"></span></div>';const tick=()=>{const el=document.getElementById(cdId);if(!el)return;const diff=gameDate-new Date();if(diff<=0){el.textContent='NOW!';return;}const h=Math.floor(diff/3600000);const m=Math.floor((diff%3600000)/60000);const s=Math.floor((diff%60000)/1000);el.textContent=h>0?h+'h '+m+'m':m+'m '+s+'s';setTimeout(tick,1000);};setTimeout(tick,100);}
   else if(sorted.length>0){countdownHTML='<div style="background:white;border:1px solid var(--grey);border-radius:8px;padding:8px 12px;margin-bottom:12px;text-align:center;font-family:\'Barlow Condensed\',sans-serif;font-weight:700;font-size:12px;color:var(--text-muted);">All games complete \u2705</div>';}
