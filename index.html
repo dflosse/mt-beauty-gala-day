@@ -448,7 +448,7 @@ footer { text-align: center; padding: 14px; color: var(--text-muted); font-size:
 <!-- FIXTURES -->
 <div id="page-draw" class="page">
 <div class="content">
-  <div class="mb-header"><h2>📋 Gala Fixture</h2><p>Gala 4 — Yackandandah · Sunday 14 June 2026 · Updated each Wednesday</p></div>
+  <div class="mb-header"><h2>📋 Gala Fixture</h2><p>Gala 5 — Bright · Saturday 27 June 2026 · Pioneer Park</p></div>
   <div class="filter-bar" id="filterBar"><button class="filter-btn active" onclick="filterAge('all',this)">All Ages</button></div>
   <div id="draw-content-inner">
 
@@ -459,7 +459,7 @@ footer { text-align: center; padding: 14px; color: var(--text-muted); font-size:
 <!-- MT BEAUTY -->
 <div id="page-mb" class="page">
 <div class="content">
-  <div class="mb-header"><h2>⚽ Mt Beauty FC — Teams</h2><p>Gala 5 — Bright · Saturday 27 June 2026 · Squads to be confirmed</p></div>
+  <div class="mb-header"><h2>⚽ Mt Beauty FC — Teams</h2><p>Gala 5 — Bright · Saturday 27 June 2026 · Pioneer Park</p></div>
   <div class="mb-team-grid" id="mb-team-grid"></div>
   <div id="mb-matches-area"></div>
 </div>
@@ -791,51 +791,50 @@ footer { text-align: center; padding: 14px; color: var(--text-muted); font-size:
 <script>
 
 const fixtures=[
-  {age:'Under 5',kick:0.3958333333333333,pitch:'Pitch 4',duration:'2 x 10 min ',t1:'Myrtleford SC',t2:'Bright SC Red'},
-  {age:'Under 5',kick:0.3958333333333333,pitch:'Pitch 5',duration:'2 x 10 min ',t1:'Bright SC Black',t2:'Yackandandah FC'},
-  {age:'Under 5',kick:0.4166666666666667,pitch:'Pitch 4',duration:'2 x 10 min ',t1:'Myrtleford SC',t2:'Bright SC Black'},
-  {age:'Under 5',kick:0.4166666666666667,pitch:'Pitch 5',duration:'2 x 10 min ',t1:'Bright SC Red',t2:'Yackandandah FC'},
-  {age:'Under 5',kick:0.4375,pitch:'Pitch 4',duration:'2 x 10 min ',t1:'Yackandandah FC',t2:'Myrtleford SC'},
-  {age:'Under 5',kick:0.4375,pitch:'Pitch 5',duration:'2 x 10 min ',t1:'Bright SC Red',t2:'Bright SC Black'},
-  {age:'Under 7',kick:0.3958333333333333,pitch:'Pitch 1',duration:'2 x 12 min ',t1:'Myrtleford SC Blue',t2:'Bright SC Red'},
-  {age:'Under 7',kick:0.3958333333333333,pitch:'Pitch 2',duration:'2 x 12 min ',t1:'Myrtleford SC White',t2:'Mt Beauty SC Green'},
-  {age:'Under 7',kick:0.3958333333333333,pitch:'Pitch 3',duration:'2 x 12 min ',t1:'Myrtleford SC Green',t2:'Bright SC White'},
-  {age:'Under 7',kick:0.4166666666666667,pitch:'Pitch 1',duration:'2 x 12 min ',t1:'Bright SC Black',t2:'Mt Beauty SC Red'},
-  {age:'Under 7',kick:0.4166666666666667,pitch:'Pitch 2',duration:'2 x 12 min ',t1:'Yackandandah FC',t2:'Mt Beauty SC Blue'},
-  {age:'Under 7',kick:0.4166666666666667,pitch:'Pitch 3',duration:'2 x 12 min ',t1:'Myrtleford SC Green',t2:'Mt Beauty SC Green'},
-  {age:'Under 7',kick:0.4375,pitch:'Pitch 1',duration:'2 x 12 min ',t1:'Myrtleford SC Blue',t2:'Bright SC Black'},
-  {age:'Under 7',kick:0.4375,pitch:'Pitch 2',duration:'2 x 12 min ',t1:'Myrtleford SC White',t2:'Mt Beauty SC Red'},
-  {age:'Under 7',kick:0.4375,pitch:'Pitch 3',duration:'2 x 12 min ',t1:'Bright SC Red',t2:'Mt Beauty SC Blue'},
-  {age:'Under 7',kick:0.4583333333333333,pitch:'Pitch 1',duration:'2 x 12 min ',t1:'Bright SC White',t2:'Yackandandah FC'},
-  {age:'Under 7',kick:0.4583333333333333,pitch:'Pitch 2',duration:'2 x 12 min ',t1:'Mt Beauty SC Green',t2:'Bright SC Red'},
-  {age:'Under 7',kick:0.4583333333333333,pitch:'Pitch 3',duration:'2 x 12 min ',t1:'Mt Beauty SC Blue',t2:'Myrtleford SC Blue'},
-  {age:'Under 7',kick:0.47916666666666663,pitch:'Pitch 1',duration:'2 x 12 min ',t1:'Mt Beauty SC Red',t2:'Bright SC White'},
-  {age:'Under 7',kick:0.47916666666666663,pitch:'Pitch 2',duration:'2 x 12 min ',t1:'Myrtleford SC White',t2:'Bright SC Black'},
-  {age:'Under 7',kick:0.47916666666666663,pitch:'Pitch 3',duration:'2 x 12 min ',t1:'Myrtleford SC Green',t2:'Yackandandah FC'},
-  {age:'Under 9',kick:0.3958333333333333,pitch:'Pitch 6',duration:'2 x 12 min ',t1:'Myrtleford SC Blue',t2:'Bright SC Red'},
-  {age:'Under 9',kick:0.3958333333333333,pitch:'Pitch 7',duration:'2 x 12 min ',t1:'Myrtleford SC White',t2:'Yackandandah FC Blue'},
-  {age:'Under 9',kick:0.4166666666666667,pitch:'Pitch 6',duration:'2 x 12 min ',t1:'Bright SC Black',t2:'Mt Beauty SC Green'},
-  {age:'Under 9',kick:0.4166666666666667,pitch:'Pitch 7',duration:'2 x 12 min ',t1:'Bright SC White',t2:'Yackandandah FC White'},
-  {age:'Under 9',kick:0.4375,pitch:'Pitch 6',duration:'2 x 12 min ',t1:'Myrtleford SC Blue',t2:'Yackandandah FC White'},
-  {age:'Under 9',kick:0.4375,pitch:'Pitch 7',duration:'2 x 12 min ',t1:'Myrtleford SC White',t2:'Bright SC Black'},
-  {age:'Under 9',kick:0.4583333333333333,pitch:'Pitch 6',duration:'2 x 12 min ',t1:'Bright SC Red',t2:'Mt Beauty SC Green'},
-  {age:'Under 9',kick:0.4583333333333333,pitch:'Pitch 7',duration:'2 x 12 min ',t1:'Bright SC White',t2:'Mt Beauty SC Red'},
-  {age:'Under 9',kick:0.47916666666666663,pitch:'Pitch 6',duration:'2 x 12 min ',t1:'Myrtleford SC Blue',t2:'Mt Beauty SC Red'},
-  {age:'Under 9',kick:0.47916666666666663,pitch:'Pitch 7',duration:'2 x 12 min ',t1:'Myrtleford SC White',t2:'Yackandandah FC Blue'},
-  {age:'Under 9',kick:0.5,pitch:'Pitch 6',duration:'2 x 12 min ',t1:'Bright SC Red',t2:'Yackandandah FC White'},
-  {age:'Under 9',kick:0.5,pitch:'Pitch 7',duration:'2 x 12 min ',t1:'Bright SC Black',t2:'Mt Beauty SC Green'},
-  {age:'Under 10/11',kick:0.3958333333333333,pitch:'Pitch 8',duration:'2 x 12 min ',t1:'Myrtleford SC Blue',t2:'Mt Beauty SC Green'},
-  {age:'Under 10/11',kick:0.4166666666666667,pitch:'Pitch 8',duration:'2 x 12 min ',t1:'Myrtleford SC White',t2:'Bright SC'},
-  {age:'Under 10/11',kick:0.4375,pitch:'Pitch 8',duration:'2 x 12 min ',t1:'Yackandandah FC',t2:'Mt Beauty SC Red'},
-  {age:'Under 10/11',kick:0.4583333333333333,pitch:'Pitch 8',duration:'2 x 12 min ',t1:'Myrtleford SC Blue',t2:'Yackandandah FC'},
-  {age:'Under 10/11',kick:0.47916666666666663,pitch:'Pitch 8',duration:'2 x 12 min ',t1:'Myrtleford SC White',t2:'Mt Beauty SC Red'},
-  {age:'Under 10/11',kick:0.47916666666666663,pitch:'Pitch 9',duration:'2 x 12 min ',t1:'Bright SC',t2:'Mt Beauty SC Green'},
-  {age:'Under 10/11',kick:0.5,pitch:'Pitch 8',duration:'2 x 12 min ',t1:'Myrtleford SC Blue',t2:'Mt Beauty SC Red'},
-  {age:'Under 10/11',kick:0.5208333333333334,pitch:'Pitch 8',duration:'2 x 12 min ',t1:'Myrtleford SC White',t2:'Mt Beauty SC Green'},
-  {age:'Under 10/11',kick:0.5208333333333334,pitch:'Pitch 9',duration:'2 x 12 min ',t1:'Yackandandah FC',t2:'Bright SC'},
-  {age:'Under 12/13',kick:0.3958333333333333,pitch:'Pitch 9',duration:'2 x 12 min ',t1:'Bright SC Red',t2:'Mt Beauty SC'},
-  {age:'Under 12/13',kick:0.4583333333333333,pitch:'Pitch 9',duration:'2 x 12 min ',t1:'Mt Beauty SC',t2:'Bright SC Black'},
-  {age:'Under 12/13',kick:0.42708333333333337,pitch:'Pitch 9',duration:'2 x 12 min ',t1:'Bright SC Black',t2:'Bright SC Red'}
+  {age:'Under 5',kick:0.3958333333333333,pitch:'Pitch 3',duration:'2 x 12 min',t1:'Myrtleford SC',t2:'Bright SC Red'},
+  {age:'Under 5',kick:0.4166666666666667,pitch:'Pitch 3',duration:'2 x 12 min',t1:'Bright SC Black',t2:'Yackandandah FC'},
+  {age:'Under 5',kick:0.4375,pitch:'Pitch 2',duration:'2 x 12 min',t1:'Myrtleford SC',t2:'Bright SC Black'},
+  {age:'Under 5',kick:0.4583333333333333,pitch:'Pitch 1',duration:'2 x 12 min',t1:'Bright SC Red',t2:'Yackandandah FC'},
+  {age:'Under 5',kick:0.47916666666666663,pitch:'Pitch 3',duration:'2 x 12 min',t1:'Myrtleford SC',t2:'Yackandandah FC'},
+  {age:'Under 5',kick:0.47916666666666663,pitch:'Pitch 4',duration:'2 x 12 min',t1:'Bright SC Red',t2:'Bright SC Black'},
+  {age:'Under 7',kick:0.3958333333333333,pitch:'Pitch 1',duration:'2 x 12 min',t1:'Myrtleford SC Blue',t2:'Bright SC Red'},
+  {age:'Under 7',kick:0.3958333333333333,pitch:'Pitch 2',duration:'2 x 12 min',t1:'Myrtleford SC White',t2:'Mt Beauty SC Green'},
+  {age:'Under 7',kick:0.3958333333333333,pitch:'Pitch 4',duration:'2 x 12 min',t1:'Myrtleford SC Green',t2:'Bright SC White'},
+  {age:'Under 7',kick:0.4166666666666667,pitch:'Pitch 1',duration:'2 x 12 min',t1:'Bright SC Black',t2:'Mt Beauty SC Red'},
+  {age:'Under 7',kick:0.4166666666666667,pitch:'Pitch 2',duration:'2 x 12 min',t1:'Yackandandah FC',t2:'Mt Beauty SC Blue'},
+  {age:'Under 7',kick:0.4166666666666667,pitch:'Pitch 4',duration:'2 x 12 min',t1:'Myrtleford SC Blue',t2:'Bright SC Black'},
+  {age:'Under 7',kick:0.4375,pitch:'Pitch 1',duration:'2 x 12 min',t1:'Myrtleford SC White',t2:'Mt Beauty SC Red'},
+  {age:'Under 7',kick:0.4375,pitch:'Pitch 3',duration:'2 x 12 min',t1:'Myrtleford SC Green',t2:'Mt Beauty SC Green'},
+  {age:'Under 7',kick:0.4375,pitch:'Pitch 4',duration:'2 x 12 min',t1:'Bright SC Red',t2:'Mt Beauty SC Blue'},
+  {age:'Under 7',kick:0.4583333333333333,pitch:'Pitch 2',duration:'2 x 12 min',t1:'Bright SC White',t2:'Yackandandah FC'},
+  {age:'Under 7',kick:0.4583333333333333,pitch:'Pitch 3',duration:'2 x 12 min',t1:'Myrtleford SC Blue',t2:'Mt Beauty SC Blue'},
+  {age:'Under 7',kick:0.4583333333333333,pitch:'Pitch 4',duration:'2 x 12 min',t1:'Myrtleford SC White',t2:'Bright SC Black'},
+  {age:'Under 7',kick:0.47916666666666663,pitch:'Pitch 1',duration:'2 x 12 min',t1:'Myrtleford SC Green',t2:'Yackandandah FC'},
+  {age:'Under 7',kick:0.47916666666666663,pitch:'Pitch 2',duration:'2 x 12 min',t1:'Bright SC Red',t2:'Mt Beauty SC Green'},
+  {age:'Under 9',kick:0.3958333333333333,pitch:'Pitch 5',duration:'2 x 12 min',t1:'Myrtleford SC Blue',t2:'Bright SC Red'},
+  {age:'Under 9',kick:0.3958333333333333,pitch:'Pitch 6',duration:'2 x 12 min',t1:'Myrtleford SC White',t2:'Mt Beauty SC Green'},
+  {age:'Under 9',kick:0.4166666666666667,pitch:'Pitch 5',duration:'2 x 12 min',t1:'Bright SC White',t2:'Yackandandah FC'},
+  {age:'Under 9',kick:0.4166666666666667,pitch:'Pitch 6',duration:'2 x 12 min',t1:'Bright SC Black',t2:'Mt Beauty SC Red'},
+  {age:'Under 9',kick:0.4375,pitch:'Pitch 5',duration:'2 x 12 min',t1:'Myrtleford SC Blue',t2:'Bright SC Black'},
+  {age:'Under 9',kick:0.4375,pitch:'Pitch 6',duration:'2 x 12 min',t1:'Myrtleford SC White',t2:'Mt Beauty SC Red'},
+  {age:'Under 9',kick:0.4583333333333333,pitch:'Pitch 5',duration:'2 x 12 min',t1:'Mt Beauty SC Green',t2:'Bright SC White'},
+  {age:'Under 9',kick:0.4583333333333333,pitch:'Pitch 6',duration:'2 x 12 min',t1:'Yackandandah FC',t2:'Bright SC Red'},
+  {age:'Under 9',kick:0.47916666666666663,pitch:'Pitch 5',duration:'2 x 12 min',t1:'Myrtleford SC Blue',t2:'Mt Beauty SC Green'},
+  {age:'Under 9',kick:0.47916666666666663,pitch:'Pitch 6',duration:'2 x 12 min',t1:'Myrtleford SC White',t2:'Bright SC White'},
+  {age:'Under 9',kick:0.5,pitch:'Pitch 5',duration:'2 x 12 min',t1:'Bright SC Black',t2:'Yackandandah FC'},
+  {age:'Under 9',kick:0.5,pitch:'Pitch 6',duration:'2 x 12 min',t1:'Bright SC Red',t2:'Mt Beauty SC Red'},
+  {age:'Under 10/11',kick:0.3958333333333333,pitch:'Pitch 7',duration:'2 x 12 min',t1:'Myrtleford SC Blue',t2:'Mt Beauty SC Green'},
+  {age:'Under 10/11',kick:0.4166666666666667,pitch:'Pitch 7',duration:'2 x 12 min',t1:'Myrtleford SC White',t2:'Bright SC'},
+  {age:'Under 10/11',kick:0.4166666666666667,pitch:'Pitch 8',duration:'2 x 12 min',t1:'Mt Beauty SC Red',t2:'Mt Beauty SC Green'},
+  {age:'Under 10/11',kick:0.4375,pitch:'Pitch 8',duration:'2 x 12 min',t1:'Myrtleford SC Blue',t2:'Bright SC'},
+  {age:'Under 10/11',kick:0.4583333333333333,pitch:'Pitch 7',duration:'2 x 12 min',t1:'Myrtleford SC White',t2:'Mt Beauty SC Red'},
+  {age:'Under 10/11',kick:0.4583333333333333,pitch:'Pitch 8',duration:'2 x 12 min',t1:'Bright SC',t2:'Mt Beauty SC Green'},
+  {age:'Under 10/11',kick:0.47916666666666663,pitch:'Pitch 8',duration:'2 x 12 min',t1:'Myrtleford SC Blue',t2:'Mt Beauty SC Red'},
+  {age:'Under 10/11',kick:0.5,pitch:'Pitch 7',duration:'2 x 12 min',t1:'Myrtleford SC White',t2:'Mt Beauty SC Green'},
+  {age:'Under 10/11',kick:0.5,pitch:'Pitch 8',duration:'2 x 12 min',t1:'Bright SC',t2:'Mt Beauty SC Red'},
+  {age:'Under 12/13',kick:0.3958333333333333,pitch:'Pitch 8',duration:'2 x 12 min',t1:'Bright SC Red',t2:'Mt Beauty SC'},
+  {age:'Under 12/13',kick:0.4375,pitch:'Pitch 7',duration:'2 x 12 min',t1:'Bright SC Black',t2:'Mt Beauty SC'},
+  {age:'Under 12/13',kick:0.47916666666666663,pitch:'Pitch 7',duration:'2 x 12 min',t1:'Bright SC Red',t2:'Bright SC Black'}
 ];
 const GALAS=[
   {date:'2026-05-17',host:'Mount Beauty',done:true},
@@ -870,17 +869,17 @@ fixtures.forEach(f=>{if(!groups[f.age])groups[f.age]={duration:f.duration,matche
 const filterBar=document.getElementById('filterBar');
 if(filterBar){ageOrder.forEach(age=>{if(!groups[age])return;const btn=document.createElement('button');btn.className='filter-btn';btn.textContent=age;btn.onclick=()=>filterAge(age,btn);filterBar.appendChild(btn);});}
 const drawInner=document.getElementById('draw-content-inner');
-if(drawInner){if(!fixtures.length){drawInner.innerHTML='<div style="text-align:center;padding:40px 20px;background:white;border-radius:12px;border:2px dashed var(--grey);"><div style="font-size:40px;margin-bottom:10px;">📋</div><div style="font-family:\'Barlow Condensed\',sans-serif;font-weight:800;font-size:20px;color:var(--text-muted);text-transform:uppercase;margin-bottom:6px;">Fixture Coming Soon</div><div style="font-size:13px;color:var(--text-muted);">The Gala 4 draw will be published here once released — updated each Wednesday.</div></div>';}else{ageOrder.forEach(age=>{if(!groups[age])return;const g=groups[age];const sec=document.createElement('div');sec.className='age-group';sec.dataset.age=age;const cards=g.matches.map(m=>{const t=excelToTime(m.kick);const mb1=m.t1.includes('Mt Beauty');const mb2=m.t2.includes('Mt Beauty');return '<div class="match-card"><div class="match-time">'+t.str+'<span class="match-time-ampm">'+t.ampm+'</span></div><div class="team team-home'+(mb1?' mb':'')+'">'+m.t1+'</div><div class="vs-badge">VS</div><div class="team team-away'+(mb2?' mb':'')+'">'+m.t2+'</div><button class="pitch-tag pitch-link" onclick="goToPitch('+m.pitch.split(' ')[1]+')">'+m.pitch+' \uD83D\uDCCD</button></div>';}).join('');sec.innerHTML='<div class="age-group-header"><span class="age-label">'+age+'</span><span class="duration-badge">'+g.duration+'</span><div class="age-line"></div></div><div class="matches-grid">'+cards+'</div>';drawInner.appendChild(sec);});}}
+if(drawInner){if(!fixtures.length){drawInner.innerHTML='<div style="text-align:center;padding:40px 20px;background:white;border-radius:12px;border:2px dashed var(--grey);"><div style="font-size:40px;margin-bottom:10px;">📋</div><div style="font-family:\'Barlow Condensed\',sans-serif;font-weight:800;font-size:20px;color:var(--text-muted);text-transform:uppercase;margin-bottom:6px;">Fixture Coming Soon</div><div style="font-size:13px;color:var(--text-muted);">The Gala 5 draw will be published here once released — updated each Wednesday.</div></div>';}else{ageOrder.forEach(age=>{if(!groups[age])return;const g=groups[age];const sec=document.createElement('div');sec.className='age-group';sec.dataset.age=age;const cards=g.matches.map(m=>{const t=excelToTime(m.kick);const mb1=m.t1.includes('Mt Beauty');const mb2=m.t2.includes('Mt Beauty');return '<div class="match-card"><div class="match-time">'+t.str+'<span class="match-time-ampm">'+t.ampm+'</span></div><div class="team team-home'+(mb1?' mb':'')+'">'+m.t1+'</div><div class="vs-badge">VS</div><div class="team team-away'+(mb2?' mb':'')+'">'+m.t2+'</div><button class="pitch-tag pitch-link" onclick="goToPitch('+m.pitch.split(' ')[1]+')">'+m.pitch+' \uD83D\uDCCD</button></div>';}).join('');sec.innerHTML='<div class="age-group-header"><span class="age-label">'+age+'</span><span class="duration-badge">'+g.duration+'</span><div class="age-line"></div></div><div class="matches-grid">'+cards+'</div>';drawInner.appendChild(sec);});}}
 
 const mbTeams=[
-  {name:'Mt Beauty SC Red',label:'Red',age:'Under 7',ageFilter:'Under 7',info:{coach:'Steff',note:'',confirmed:[],pending:['Louis','Alfie','Teddy','Frankie','Luca','Millie'],absent:[]}},
-  {name:'Mt Beauty SC Green',label:'Green',age:'Under 7',ageFilter:'Under 7',info:{coach:'TBC',note:'Our Under 6s — playing in the U7 age group',confirmed:[],pending:['Leo','Chester','Felix','Arvo','Reuben','Fletcher'],absent:[]}},
-  {name:'Mt Beauty SC Blue',label:'Blue',age:'Under 7',ageFilter:'Under 7',info:{coach:'Emma',note:'',confirmed:[],pending:['Ollie','Oscar','Sierra','Lenox','Henry','Harper'],absent:[]}},
-  {name:'Mt Beauty SC Red',label:'U9 Red',age:'Under 9',ageFilter:'Under 9',info:{coach:'Rachelle',note:'',confirmed:[],pending:['Banjo','Reuben','George','Travis','Clover','Summer','Gene','Jaidyn','Orion','Sofia','Gus'],absent:[]}},
-  {name:'Mt Beauty SC Green',label:'U9 Green',age:'Under 9',ageFilter:'Under 9',info:{coach:'Erik',note:'',confirmed:[],pending:['Finn','Charlie','James','Hendrix','Matilda','Evie','Hughie','Harrison','Drift','Fletcher','Channing'],absent:[]}},
-  {name:'Mt Beauty SC Red',label:'U11 Red',age:'Under 10/11',ageFilter:'Under 10/11',info:{coach:'Rob',note:'',confirmed:[],pending:['Lawson','Goldie','Lolly (Lollita)','Cooper','Max','Craig (CJ)','Skye','Sam','Hugo','Jarrah','Oliver','Zaine'],absent:[]}},
-  {name:'Mt Beauty SC Green',label:'U11 Green',age:'Under 10/11',ageFilter:'Under 10/11',info:{coach:'Dave',note:'',confirmed:[],pending:['Luca','Miranda','Archie','Christian','Niels','Thelma','Erin','Kit','Loki','Hamish'],absent:[]}},
-  {name:'Mt Beauty SC',label:'U13',age:'Under 12/13',ageFilter:null,info:{coach:'Sian',note:'',confirmed:[],pending:['Xander','Arthur','Peter','Andie','Sebastian','Scarlette','Sophie','Luella','Eloise','Griffin','Chevi'],absent:[]}},
+  {name:'Mt Beauty SC Red',label:'Red',age:'Under 7',ageFilter:'Under 7',info:{coach:'Steff',note:'',confirmed:['Louis','Alfie','Frankie','Millie'],pending:['Teddy'],absent:['Luca']}},
+  {name:'Mt Beauty SC Green',label:'Green',age:'Under 7',ageFilter:'Under 7',info:{coach:'TBC',note:'Our Under 6s — playing in the U7 age group',confirmed:['Leo','Chester','Felix','Arvo','Reuben','Fletcher'],pending:[],absent:[]}},
+  {name:'Mt Beauty SC Blue',label:'Blue',age:'Under 7',ageFilter:'Under 7',info:{coach:'Emma',note:'',confirmed:['Ollie','Oscar','Sierra','Lenox','Henry','Harper'],pending:[],absent:[]}},
+  {name:'Mt Beauty SC Red',label:'U9 Red',age:'Under 9',ageFilter:'Under 9',info:{coach:'Rachelle',note:'',confirmed:['Banjo','Reuben','George','Travis','Clover','Summer','Gene','Jaidyn','Orion','Sofia','Gus'],pending:[],absent:[]}},
+  {name:'Mt Beauty SC Green',label:'U9 Green',age:'Under 9',ageFilter:'Under 9',info:{coach:'Erik',note:'',confirmed:['Finn','Charlie','James','Hendrix','Matilda','Evie','Hughie','Harrison','Drift','Fletcher','Channing'],pending:[],absent:[]}},
+  {name:'Mt Beauty SC Red',label:'U11 Red',age:'Under 10/11',ageFilter:'Under 10/11',info:{coach:'Rob',note:'',confirmed:['Lawson','Goldie','Cooper','Max','Craig (CJ)','Skye','Sam','Hugo','Jarrah','Oliver','Zaine'],pending:['Lolly (Lollita)'],absent:[]}},
+  {name:'Mt Beauty SC Green',label:'U11 Green',age:'Under 10/11',ageFilter:'Under 10/11',info:{coach:'Dave',note:'',confirmed:['Luca','Miranda','Archie','Christian','Niels','Thelma','Erin','Kit','Loki'],pending:[],absent:['Hamish']}},
+  {name:'Mt Beauty SC',label:'U13',age:'Under 12/13',ageFilter:null,info:{coach:'Sian',note:'',confirmed:['Xander','Arthur','Peter','Andie','Sebastian','Scarlette','Sophie','Luella','Eloise','Griffin','Chevi'],pending:[],absent:[]}},
 ];
 const mbGrid=document.getElementById('mb-team-grid');
 const mbArea=document.getElementById('mb-matches-area');
@@ -904,7 +903,7 @@ function showMbTeam(idx){
   if(info.note){attendHTML+='<div style="margin-top:8px;font-size:12px;color:var(--text-muted);font-style:italic;">'+info.note+'</div>';}
   const teamTitle='<span class="age-label">'+team.label+'</span><span class="age-chip">'+team.age+'</span>';
   const coachLine='<div class="team-coach">Coach: <span>'+info.coach+'</span></div>';
-  const matches=[];
+  const matches=fixtures.filter(f=>(f.t1===team.name||f.t2===team.name)&&(team.ageFilter===null||f.age===team.ageFilter));
   const sorted=[...matches].sort((a,b)=>a.kick-b.kick);
   let gapHTML='';
   if(sorted.length>0){let parts='<span style="font-family:\'Barlow Condensed\',sans-serif;font-weight:700;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--text-muted);margin-right:6px;">'+sorted.length+' Game'+(sorted.length>1?'s':'')+'</span><span style="color:var(--grey-light);margin-right:6px;">|</span>';sorted.forEach((m,i)=>{const t=excelToTime(m.kick);parts+='<span style="font-family:\'Barlow Condensed\',sans-serif;font-size:12px;font-weight:700;color:var(--green);">'+t.str+t.ampm+'</span>';if(i<sorted.length-1){const dur=m.duration.match(/\d+\s*x\s*(\d+)/);const gl=dur?parseInt(dur[1])*2:20;const endM=Math.round(m.kick*24*60)+gl;const nextM=Math.round(sorted[i+1].kick*24*60);const gap=nextM-endM;parts+='<span style="color:var(--text-muted);margin:0 4px;font-size:11px;">+'+gap+'min</span>';}});gapHTML='<div style="background:var(--green-pale);border:1px solid rgba(26,107,58,0.15);border-radius:8px;padding:8px 12px;margin-bottom:12px;display:flex;align-items:center;flex-wrap:wrap;gap:2px;">'+parts+'</div>';}
